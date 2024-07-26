@@ -1,0 +1,47 @@
+.header-container {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo svg {
+    width: 34px;
+    height: 30px;
+    fill: #007bff; /* Match logo color with the theme */
+}
+
+.spacer {
+    flex: 1; /* Takes up all available space to push logout to the end */
+}
+
+.logout {
+    margin-left: auto; /* Pushes logout link to the far end */
+}
+
+.logout a {
+    color: #007bff; /* Primary color */
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500; /* Slightly lighter font weight for better readability */
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+a{
+    margin:38px;
+}
+
+.logout a:hover {
+    background-color: #e6f7ff; /* Light blue background on hover */
+    color: #0056b3; /* Darker shade for better contrast on hover */
+}

@@ -1,0 +1,70 @@
+.flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.min-w-screen {
+    min-width: 100vw;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.w-30rem {
+    width: 30rem;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.text-3xl {
+    font-size: 2rem;
+}
+
+.text-900 {
+    color: #1a202c;
+}
+
+.text-600 {
+    color: #718096;
+}
+
+.py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.sm\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-5 {
+    margin-bottom: 1.25rem;
+}
