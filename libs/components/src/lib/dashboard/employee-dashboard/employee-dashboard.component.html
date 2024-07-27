@@ -1,0 +1,67 @@
+<app-header></app-header>
+<div class="dashboard-container">
+  <!-- Main container with title and add task button -->
+  <div class="tasks-container">
+    <div class="tasks-header">
+      <h1>Tasks</h1>
+      <button mat-raised-button color="primary" (click)="openAddTaskDialog()">
+        Add Task
+      </button>
+    </div>
+
+    <!-- Drag-and-drop columns -->
+    <div class="tasks-columns" fxLayout="row" fxLayoutGap="16px">
+      <div class="task-column" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="todoTasks">
+        <h2>To Do</h2>
+        <div *ngFor="let task of todoTasks" class="task-card" cdkDrag>
+          <mat-card class="task-card">
+            <mat-card-header>
+              <mat-card-title>{{ task.name }}</mat-card-title>
+              <button mat-icon-button (click)="deleteTask(task)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-header>
+            <mat-card-content (click)="openEditTaskDialog(task)">
+              <p>{{ task.description }}</p>
+              <span [ngClass]="task.status">{{ task.status | titlecase }}</span>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="task-column" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="inProgressTasks">
+        <h2>In Progress</h2>
+        <div *ngFor="let task of inProgressTasks" class="task-card" cdkDrag>
+          <mat-card class="task-card">
+            <mat-card-header>
+              <mat-card-title>{{ task.name }}</mat-card-title>
+              <button mat-icon-button (click)="deleteTask(task)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-header>
+            <mat-card-content  (click)="openEditTaskDialog(task)">
+              <p>{{ task.description }}</p>
+              <span [ngClass]="task.status">{{ task.status | titlecase }}</span>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="task-column" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="doneTasks">
+        <h2>Done</h2>
+        <div *ngFor="let task of doneTasks" class="task-card" cdkDrag>
+          <mat-card class="task-card">
+            <mat-card-header>
+              <mat-card-title>{{ task.name }}</mat-card-title>
+              <button mat-icon-button (click)="deleteTask(task)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-header>
+            <mat-card-content  (click)="openEditTaskDialog(task)">
+              <p>{{ task.description }}</p>
+              <span [ngClass]="task.status">{{ task.status | titlecase }}</span>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

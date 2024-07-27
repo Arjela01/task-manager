@@ -20,6 +20,7 @@
       "@task-manager/login": ["libs/login/src/index.ts"],
       "@task-manager/main": ["main/src/index.ts"],
       "@task-manager/shared": ["libs/shared/src/index.ts"],
+      "@task-manager/task": ["libs/task/src/index.ts"],
       "@task-manager/ui-shared": ["libs/ui-shared/src/index.ts"]
     }
   },

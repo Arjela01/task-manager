@@ -1,8 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { LoginRequest } from '../models/login-request.model';
 import { AuthActions } from './auth.actions';
-import { authQuery } from './auth.selectors';
+import { LoginRequest } from '../models/login-request.model';
+import {authQuery} from "./auth.selectors";
+import {AuthService} from "../services/auth.service";
+
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
   private readonly store = inject(Store);
@@ -13,8 +15,19 @@ export class AuthFacade {
   user$ = this.store.select(authQuery.selectUser);
   token$ = this.store.select(authQuery.selectToken);
 
-  init() {
-    this.store.dispatch(AuthActions.initAuth());
+  constructor(private authService: AuthService) {
+    this.initializeAuthState();
+  }
+
+  private initializeAuthState(): void {
+    const token = this.authService.getAuthToken();
+    const user = this.authService.getUser();
+
+    if (token && user) {
+      this.store.dispatch(AuthActions.authInitSuccess({ token, user }));
+    } else {
+      this.store.dispatch(AuthActions.logout());
+    }
   }
 
   login(loginRequest: LoginRequest) {
@@ -22,6 +35,7 @@ export class AuthFacade {
   }
 
   logout() {
+    this.authService.logout();
     this.store.dispatch(AuthActions.logout());
   }
 }

@@ -42,9 +42,9 @@ export class UserLoginComponent {
   hidePassword = true;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService
+      private fb: FormBuilder,
+      private router: Router,
+      private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: [
@@ -52,7 +52,7 @@ export class UserLoginComponent {
         [
           Validators.required,
           Validators.pattern(
-            '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'
+              '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'
           ),
         ],
       ],
@@ -63,21 +63,31 @@ export class UserLoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const loginRequest = {
-        username: this.loginForm.value.email, // Map email to username
+        username: this.loginForm.value.email,
         password: this.loginForm.value.password,
       };
       this.authService.login(loginRequest).subscribe(
-        (response) => {
-          if (response && response.username) {
-            this.router.navigateByUrl('/dashboard');
-            console.log('Login successful:', response);
-          } else {
-            console.log('Login failed: No user data found');
+          (response) => {
+            if (response) {
+              localStorage.setItem('authToken', response.token);
+              localStorage.setItem('user', JSON.stringify(response));
+              const userRole = response.user.role;
+              if (userRole === 'admin') {
+                this.router.navigateByUrl('/admin-dashboard');
+              } else if (userRole === 'employee') {
+                this.router.navigateByUrl('/employee-dashboard');
+              } else {
+                console.error('Unknown user role:', userRole);
+              }
+
+              console.log('Login successful:', response);
+            } else {
+              console.log('Login failed: No user data found');
+            }
+          },
+          (error) => {
+            console.log('Error:', error.message);
           }
-        },
-        (error) => {
-          console.log('Error:', error.message);
-        }
       );
     }
   }

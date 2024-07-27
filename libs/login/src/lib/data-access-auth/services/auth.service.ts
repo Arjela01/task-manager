@@ -1,18 +1,16 @@
-import {delay, map, Observable, of, throwError} from "rxjs";
-import {Injectable} from "@angular/core";
-import {LoginRequest} from "../models/login-request.model";
-import {LoginResponse} from "../models/login-response.model";
+import { Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { delay, map, catchError } from 'rxjs/operators';
+import { LoginRequest } from '../models/login-request.model';
+import { LoginResponse } from '../models/login-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
 
-  login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    const { username, password } = loginRequest;
+  login(loginRequest: LoginRequest): Observable<any> {
 
-    // Simulated user data
     const mockUsers = [
       {
         username: 'admin@example.com',
@@ -32,19 +30,17 @@ export class AuthService {
       }
     ];
 
-    // Simulated delay
     const simulatedDelay = 1000;
 
     return of(loginRequest).pipe(
-        delay(simulatedDelay), // Simulate server delay
+        delay(simulatedDelay),
         map((request) => {
-          // Check if username and password match any mock user
           const user = mockUsers.find(
               (u) => u.username === request.username && u.password === request.password
           );
 
           if (user) {
-            const loginResponse: any = {
+            const loginResponse: LoginResponse = {
               displayName: user.displayName,
               token: user.token,
               username: user.username,
@@ -61,7 +57,24 @@ export class AuthService {
           } else {
             return throwError(() => new Error('Invalid username or password'));
           }
+        }),
+        catchError((error) => {
+          return throwError(() => new Error(error.message));
         })
     );
+  }
+
+  logout(): void {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+  }
+
+  getAuthToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
+
+  getUser(): any {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 }

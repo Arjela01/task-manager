@@ -1,10 +1,9 @@
 export interface User {
+  id?:number;
   displayName: string;
   username: string;
   role?: string;
 }
-
-export const USER_STORAGE_KEY = 'user';
 
 export type GenericStoreStatus =
     | 'pending'
