@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>{{ isEditMode ? 'Edit Task' : 'Add Task' }}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form" class="task-form">
+        <!-- Task Name -->
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Task Name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter task name">
+            <mat-error *ngIf="form.get('name')?.hasError('required')">
+                Task Name is required.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" placeholder="Enter task description"></textarea>
+            <mat-error *ngIf="form.get('description')?.hasError('required')">
+                Description is required.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Status -->
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                <mat-option *ngFor="let status of statuses" [value]="status">{{ status | titlecase }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <h3 class="comments-title">Comments</h3>
+            <div class="comments-list-container">
+                <mat-list class="comments-list">
+                    <mat-list-item *ngFor="let comment of comments">
+                        <h4 matLine class="comment-author">{{ comment.author }} - {{ comment.timestamp | date:'short' }}</h4>
+                        <p matLine class="comment-text">{{ comment.text }}</p>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Add Comment</mat-label>
+                <textarea matInput #commentText placeholder="Enter your comment"></textarea>
+            </mat-form-field>
+            <button mat-button class="link-button" (click)="addComment(commentText.value); commentText.value=''">
+                <mat-icon>add</mat-icon>
+                Add Comment
+            </button>        </div>
+
+        <!-- Attachments Section -->
+        <div class="attachments-section">
+            <h3 class="attachments-title">Attachments</h3>
+            <div class="attachments-list-container">
+                <mat-list class="attachments-list">
+                    <mat-list-item *ngFor="let attachment of attachments">
+                        <a [href]="attachment.fileUrl" target="_blank" class="attachment-link">{{ attachment.fileName }}</a>
+                        <button mat-icon-button class="delete-attachment-btn" (click)="removeAttachment(attachment)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+            <input type="file" (change)="addAttachment($event)" id="file-input" hidden>
+            <label for="file-input" class="file-input-label">
+                <mat-icon>attach_file</mat-icon>
+                Add Attachment
+            </label>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
+</div>

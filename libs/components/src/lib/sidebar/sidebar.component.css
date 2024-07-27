@@ -1,0 +1,49 @@
+/* Global Styles */
+.sidenav-container {
+    height: 100vh; /* Full viewport height */
+    width: 250px; /* Width of the sidebar */
+}
+
+.sidenav {
+    background-color: #003366; /* Blue background */
+    color: white; /* White text */
+}
+
+.sidenav-toolbar {
+    background-color: #002244; /* Darker blue background for the toolbar */
+    color: white; /* White text */
+}
+
+.mat-nav-list {
+    padding: 0;
+}
+
+.mat-nav-list a {
+    color: white; /* White text for nav items */
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    text-decoration: none; /* Remove underline from links */
+}
+
+.mat-nav-list a mat-icon {
+    color: white; /* White color for icons */
+    margin-right: 16px; /* Space between icon and text */
+}
+
+.mat-nav-list a:hover {
+    background-color: #004080; /* Lighter blue background on hover */
+    color: white; /* Ensure text remains white on hover */
+}
+
+.mat-nav-list a.active {
+    background-color: #0056b3; /* Highlight color for active menu item */
+}
+.mat-icon {
+    color: white;
+    margin-top: 30px;
+}
+span{
+    color: white;
+    margin-left: 10px;
+}

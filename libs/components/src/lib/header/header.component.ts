@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {AuthFacade} from "../../../../login/src/lib/data-access-auth";
 
 @Component({
   selector: 'app-header',
@@ -8,12 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router , private authFacade: AuthFacade) {}
 
   logout(): void {
-    // Implement your logout logic here
-    // For example, clear user data and redirect to the login page
-    // localStorage.removeItem('userToken');
+   this.authFacade.logout();
     this.router.navigate(['/login']);
   }
 }

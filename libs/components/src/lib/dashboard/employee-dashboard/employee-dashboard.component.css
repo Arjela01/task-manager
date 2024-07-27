@@ -57,9 +57,15 @@
     color: #343a40; /* Dark gray color for text */
     margin-bottom: 16px;
 }
-
 .task-card {
     margin-bottom: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .task-card mat-card {
@@ -70,6 +76,8 @@
 .task-card mat-card-header {
     background-color: aliceblue;
     color: #2b8ae5;
+    display: flex;
+    justify-content: space-between;
 }
 
 .task-card mat-card-content {

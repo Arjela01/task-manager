@@ -9,9 +9,14 @@ export const appRoutes: Route[] = [
       import('@task-manager/login').then((m) => m.UserLoginComponent),
   },
   {
-    path: 'dashboard',
+    path: 'employee-dashboard',
     loadComponent: () =>
-      import('@task-manager/components').then((m) => m.DashboardComponent),
+      import('@task-manager/components').then((m) => m.EmployeeDashboardComponent),
+  },
+  {
+    path: 'admin-dashboard',
+    loadComponent: () =>
+        import('@task-manager/components').then((m) => m.AdminDashboardComponent),
   },
   {
     path: '404',

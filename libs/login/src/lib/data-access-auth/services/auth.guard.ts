@@ -11,6 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authFacade: AuthFacade) {}
 
   canActivate(): Observable<boolean> {
+      debugger;
     return this.authFacade.isAuthenticated$.pipe(
       take(1),
       map((isAuthenticated) => {
