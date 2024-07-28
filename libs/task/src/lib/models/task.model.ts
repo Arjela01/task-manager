@@ -16,6 +16,7 @@ export interface Comment {
     text: string;
     author: string;
     timestamp: Date;
+    mention: string;
 }
 
 export interface Attachment {

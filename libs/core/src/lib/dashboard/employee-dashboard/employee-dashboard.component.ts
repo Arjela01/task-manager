@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskBoardComponent } from '@task-manager/task';
-import { HeaderComponent } from '../../header/header.component';
+import {HeaderComponent} from "../../header/header.component";
 
 @Component({
   selector: 'lib-employee-dashboard',
@@ -9,8 +9,8 @@ import { HeaderComponent } from '../../header/header.component';
   imports: [
     CommonModule,
     TaskBoardComponent,
-    HeaderComponent,
     TaskBoardComponent,
+      HeaderComponent
   ],
   templateUrl: './employee-dashboard.component.html',
   styleUrl: './employee-dashboard.component.css',

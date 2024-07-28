@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
             this.router.navigateByUrl('/employee-dashboard');
           } else {
             console.error('Unknown user role:', data.user.role);
-            // Optionally, handle unknown roles or show an error
             this.router.navigateByUrl('/login');
           }
         });

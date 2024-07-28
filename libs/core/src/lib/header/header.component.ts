@@ -1,18 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthFacade } from '@task-manager/auth';
+import { AuthFacade, AuthService } from '@task-manager/auth';
+import {
+  NotificationsComponent,
+  NotificationService,
+} from '@task-manager/shared';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { NgFor, NgIf } from '@angular/common';
+import { Notification } from '@task-manager/shared';
+import { MatListItem } from '@angular/material/list';
+import { MatTooltip } from '@angular/material/tooltip';
+import { User } from '@task-manager/auth';
 
 @Component({
   selector: 'lib-header',
   standalone: true,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
+  imports: [MatIcon, NgIf, NgFor, MatListItem, MatTooltip],
 })
-export class HeaderComponent {
-  constructor(private router: Router, private authFacade: AuthFacade) {}
+export class HeaderComponent implements OnInit {
+  notifications: Notification[] = [];
+  user!: User;
+  unreadCount = 0;
+
+  constructor(
+    private router: Router,
+    private authFacade: AuthFacade,
+    private notificationService: NotificationService,
+    private dialog: MatDialog,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.user = this.authService.getUser();
+    this.notificationService
+      .getNotifications(this.user.username as string)
+      .subscribe((notifications) => {
+        this.notifications = notifications;
+        this.unreadCount = notifications.filter(
+          (notification) => !notification.read
+        ).length;
+      });
+  }
 
   logout(): void {
     this.authFacade.logout();
     this.router.navigate(['/login']);
+  }
+
+  openNotifications(): void {
+    const dialogRef = this.dialog.open(NotificationsComponent, {
+      data: { notifications: this.notifications },
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.unreadCount = this.notifications.filter(
+        (notification) => !notification.read
+      ).length;
+    });
   }
 }
