@@ -35,14 +35,18 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getUser();
+    this.getNotifications();
+  }
+
+  getNotifications(){
     this.notificationService
-      .getNotifications(this.user.username as string)
-      .subscribe((notifications) => {
-        this.notifications = notifications;
-        this.unreadCount = notifications.filter(
-          (notification) => !notification.read
-        ).length;
-      });
+        .getNotifications(this.user.username as string)
+        .subscribe((notifications) => {
+          this.notifications = notifications;
+          this.unreadCount = notifications.filter(
+              (notification) => !notification.read
+          ).length;
+        });
   }
 
   logout(): void {
@@ -57,6 +61,7 @@ export class HeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
+      this.getNotifications();
       this.unreadCount = this.notifications.filter(
         (notification) => !notification.read
       ).length;
