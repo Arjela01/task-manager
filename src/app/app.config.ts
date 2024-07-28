@@ -9,7 +9,7 @@ import { appRoutes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   AUTH_FEATURE_KEY, authReducer,
-} from '../../libs/login/src/lib/data-access-auth';
+} from '@task-manager/login';
 import { provideStore } from '@ngrx/store';
 import {
   provideHttpClient,

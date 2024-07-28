@@ -41,9 +41,25 @@
 }
 .mat-icon {
     color: white;
-    margin-top: 30px;
 }
 span{
     color: white;
     margin-left: 10px;
+}
+
+
+.logout-container {
+    position: absolute;
+    bottom:15px;
+    width: 100%;
+    background-color: #002244; /* Adjust background color to match the sidebar */
+}
+
+.logout-container a {
+    color: #fff; /* White color for the logout text */
+    text-align: center;
+}
+
+.logout-container mat-icon {
+    color: #fff; /* White color for the logout icon */
 }

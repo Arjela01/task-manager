@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Task} from "../models/task.model";
+import { Task } from "../models/task.model";
+import { TaskData } from "@task-manager/shared";
 
 @Injectable({
     providedIn: 'root'
@@ -16,46 +17,7 @@ export class TaskService {
             this.nextId = this.tasks.length ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1;
         } else {
             // Initialize with predefined tasks
-            this.tasks = [
-                {
-                    id: this.nextId++,
-                    name: 'Task 1',
-                    description: 'Description 1',
-                    status: 'todo',
-                    comments: [
-                        { id: 1, text: 'Initial comment on Task 1', author: 'Alice', timestamp: new Date('2023-07-24T10:00:00') },
-                        { id: 2, text: 'Another comment on Task 1', author: 'Bob', timestamp: new Date('2023-07-24T12:00:00') }
-                    ],
-                    attachments: [
-                        { id: 1, fileName: 'task1_doc1.pdf', fileUrl: 'https://example.com/task1_doc1.pdf' },
-                        { id: 2, fileName: 'task1_doc2.png', fileUrl: 'https://example.com/task1_doc2.png' }
-                    ]
-                },
-                {
-                    id: this.nextId++,
-                    name: 'Task 2',
-                    description: 'Description 2',
-                    status: 'inProgress',
-                    comments: [
-                        { id: 1, text: 'Initial comment on Task 2', author: 'Charlie', timestamp: new Date('2023-07-25T09:00:00') }
-                    ],
-                    attachments: [
-                        { id: 1, fileName: 'task2_image1.jpg', fileUrl: 'https://example.com/task2_image1.jpg' }
-                    ]
-                },
-                {
-                    id: this.nextId++,
-                    name: 'Task 3',
-                    description: 'Description 3',
-                    status: 'done',
-                    comments: [
-                        { id: 1, text: 'Initial comment on Task 3', author: 'Dave', timestamp: new Date('2023-07-26T11:00:00') }
-                    ],
-                    attachments: [
-                        { id: 1, fileName: 'task3_report.pdf', fileUrl: 'https://example.com/task3_report.pdf' }
-                    ]
-                }
-            ];
+            this.tasks = TaskData;
             this.saveTasksToLocalStorage();
         }
     }
@@ -85,6 +47,14 @@ export class TaskService {
     deleteTask(id: number): void {
         this.tasks = this.tasks.filter(task => task.id !== id);
         this.saveTasksToLocalStorage();
+    }
+
+    getTasksByAssignedTo(email: string): Task[] {
+        if (email === 'employee@example.com') {
+            return this.tasks.filter(task => task.assignedTo === email);
+        } else {
+            return this.tasks.filter(task => task.assignedTo !== 'employee@example.com');
+        }
     }
 
     private saveTasksToLocalStorage(): void {

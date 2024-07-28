@@ -27,6 +27,14 @@
             </mat-select>
         </mat-form-field>
 
+        <!-- Assigned To -->
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Assigned To</mat-label>
+            <mat-select formControlName="assignedTo">
+                <mat-option *ngFor="let email of userEmails$ | async" [value]="email">{{ email }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <!-- Comments Section -->
         <div class="comments-section">
             <h3 class="comments-title">Comments</h3>
@@ -45,7 +53,8 @@
             <button mat-button class="link-button" (click)="addComment(commentText.value); commentText.value=''">
                 <mat-icon>add</mat-icon>
                 Add Comment
-            </button>        </div>
+            </button>
+        </div>
 
         <!-- Attachments Section -->
         <div class="attachments-section">

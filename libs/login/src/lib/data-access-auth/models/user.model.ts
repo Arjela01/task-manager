@@ -1,7 +1,7 @@
 export interface User {
   id?:number;
-  displayName: string;
-  username: string;
+  displayName?: string;
+  username?: string;
   role?: string;
 }
 

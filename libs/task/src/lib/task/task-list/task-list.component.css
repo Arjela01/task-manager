@@ -1,0 +1,65 @@
+
+.mat-mdc-card-content:last-child {
+    padding: 16px;
+}
+
+
+.task-card {
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+
+    & mat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .task-table {
+        width: 100%;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        & mat-header-cell, mat-cell {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        & mat-header-cell {
+            font-weight: bold;
+            background-color: #e3f2fd;
+        }
+
+        & mat-cell {
+            background-color: #ffffff;
+        }
+
+        & mat-row:nth-child(even) mat-cell {
+            background-color: #f9f9f9;
+        }
+
+        mat-chip {
+            border-radius: 16px;
+            padding: 0 8px;
+            font-size: 14px;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .todo {
+            background-color: #e1f5fe;
+            color: #0277bd;
+        }
+
+        .inProgress {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .done {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+    }
+}

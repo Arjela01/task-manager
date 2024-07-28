@@ -5,7 +5,8 @@ import {MatListItem, MatNavList} from "@angular/material/list";
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
-import {AuthFacade} from "../../../../login/src/lib/data-access-auth";
+import {AuthFacade} from "@task-manager/login";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
     selector: 'app-sidebar',
@@ -21,7 +22,7 @@ import {AuthFacade} from "../../../../login/src/lib/data-access-auth";
         RouterLink,
         MatIcon,
         RouterOutlet,
-        MatIconButton, MatSidenavContent, RouterLinkActive
+        MatIconButton, MatSidenavContent, RouterLinkActive, MatTooltip
     ]
 })
 export class SidebarComponent {

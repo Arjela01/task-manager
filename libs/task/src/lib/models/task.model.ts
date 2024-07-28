@@ -2,6 +2,7 @@ export interface Task {
     id: number;
     name: string;
     description: string;
+    assignedTo: string;
     status: TaskStatus;
     comments?: Comment[];
     attachments?: Attachment[];

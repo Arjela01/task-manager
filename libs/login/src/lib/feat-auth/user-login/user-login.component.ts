@@ -14,7 +14,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { AuthService } from '../../data-access-auth/services/auth.service';
+import {AuthService} from "../../data-access-auth";
 
 @Component({
   selector: 'app-user-login',
@@ -44,7 +44,7 @@ export class UserLoginComponent {
   constructor(
       private fb: FormBuilder,
       private router: Router,
-      private authService: AuthService
+      private authService: AuthService,
   ) {
     this.loginForm = this.fb.group({
       email: [
@@ -71,22 +71,17 @@ export class UserLoginComponent {
             if (response) {
               localStorage.setItem('authToken', response.token);
               localStorage.setItem('user', JSON.stringify(response));
-              const userRole = response.user.role;
+              const userRole = response.role;
               if (userRole === 'admin') {
                 this.router.navigateByUrl('/admin-dashboard');
               } else if (userRole === 'employee') {
                 this.router.navigateByUrl('/employee-dashboard');
               } else {
-                console.error('Unknown user role:', userRole);
               }
-
-              console.log('Login successful:', response);
-            } else {
-              console.log('Login failed: No user data found');
             }
           },
           (error) => {
-            console.log('Error:', error.message);
+            console.log(error)
           }
       );
     }

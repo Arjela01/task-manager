@@ -7,21 +7,23 @@ import {
   MatDialogTitle
 } from '@angular/material/dialog';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Attachment, Task, Comment, TaskStatus} from "../models/task.model";
+import {Attachment, Task, Comment, TaskStatus} from "../../models/task.model";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatLine, MatOption} from "@angular/material/core";
-import {DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
+import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatSelect} from "@angular/material/select";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import { Observable} from "rxjs";
+import {UserService} from "../../services/users.service";
 
 @Component({
   selector: 'app-task',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css'],
+  templateUrl: './task-dialog.component.html',
+  styleUrls: ['./task-dialog.component.css'],
   standalone: true,
   imports: [
     MatDialogTitle,
@@ -48,6 +50,7 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/mat
     MatCardContent,
       MatCardTitle,
       MatError,
+      AsyncPipe,
   ]
 })
 export class TaskDialogComponent implements OnInit {
@@ -58,13 +61,16 @@ export class TaskDialogComponent implements OnInit {
   statuses: TaskStatus[] = ['todo', 'inProgress', 'done'];
   nextCommentId = 1;
   nextAttachmentId = 1;
+  userEmails$: Observable<string[]>;
 
   constructor(
       private fb: FormBuilder,
       public dialogRef: MatDialogRef<TaskDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: { task?: Task }
+      @Inject(MAT_DIALOG_DATA) public data: { task?: Task },
+      private userService: UserService
   ) {
     this.isEditMode = !!data.task;
+    this.userEmails$ = this.userService.getUserEmails();
   }
 
   ngOnInit(): void {
@@ -73,6 +79,7 @@ export class TaskDialogComponent implements OnInit {
       name: [this.data.task?.name || '', Validators.required],
       description: [this.data.task?.description || '', Validators.required],
       status: [this.data.task?.status || 'todo', Validators.required],
+      assignedTo: [this.data.task?.assignedTo || '', Validators.required],
     });
 
     this.comments = this.data.task?.comments || [];

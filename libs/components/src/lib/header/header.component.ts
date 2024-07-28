@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import {AuthFacade} from "../../../../login/src/lib/data-access-auth";
+import {AuthFacade} from "@task-manager/login";
 
 @Component({
   selector: 'app-header',
