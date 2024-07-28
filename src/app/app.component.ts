@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import {AuthFacade, LoginResponse} from '../../libs/login/src/lib/data-access-auth';
+import {AuthFacade} from '@task-manager/login';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { EmployeeDashboardComponent } from '@task-manager/components';
 import { HeaderComponent } from '../../libs/components/src/lib/header/header.component';
-import {User} from "../../libs/login/src/lib/data-access-auth/models/user.model";
 
 @Component({
   standalone: true,

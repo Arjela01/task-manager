@@ -34,7 +34,7 @@ export class StatisticsComponent implements OnInit {
 
     public taskStatusOptions = {
         responsive: true,
-        aspectRatio: 2, // Adjust aspect ratio to control chart size
+        aspectRatio: 2,
         plugins: {
             title: {
                 display: true,
@@ -82,16 +82,14 @@ export class StatisticsComponent implements OnInit {
     }
 
     private generateTeamPerformanceData(): void {
-        const teamData = [
-            { member: 'Alice', tasks: 4 },
-            { member: 'Bob', tasks: 5 },
-            { member: 'Charlie', tasks: 2 },
-            { member: 'Dave', tasks: 1 }
-        ];
+        const teamData = this.tasks.reduce((acc, task) => {
+            acc[task.assignedTo] = (acc[task.assignedTo] || 0) + 1;
+            return acc;
+        }, {});
 
         this.teamPerformanceData = [
-            { data: teamData.map(item => item.tasks), label: 'Tasks Per Member' }
+            { data: Object.values(teamData), label: 'Tasks Per Member' }
         ];
-        this.teamPerformanceLabels = teamData.map(item => item.member);
+        this.teamPerformanceLabels = Object.keys(teamData);
     }
 }
