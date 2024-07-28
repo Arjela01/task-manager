@@ -1,29 +1,47 @@
-
-import { Component, OnInit } from '@angular/core';
-import {MatDialog,
-} from '@angular/material/dialog';
-import { Task } from "../../models/task.model";
-import {MatList, MatListItem} from "@angular/material/list";
-import {MatLine} from "@angular/material/core";
-import {DatePipe, NgClass, UpperCasePipe} from "@angular/common";
-import {MatInput} from "@angular/material/input";
-import {MatButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Task } from '../../models/task.model';
+import { MatPaginator } from '@angular/material/paginator';
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
   MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable
-} from "@angular/material/table";
-import {TaskService} from "../../services/task.service";
-import {TaskDialogComponent} from "../task-dialog/task-dialog.component";
-import {MatTooltip} from "@angular/material/tooltip";
-import {MatChip} from "@angular/material/chips";
-import {ToastService} from "@task-manager/shared";
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource,
+} from '@angular/material/table';
+import { TaskService } from '../../services/task.service';
+import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
+import { ToastService } from '@task-manager/shared';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import {
+  MatButton,
+  MatIconButton,
+  MatMiniFabButton,
+} from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatChip } from '@angular/material/chips';
+import { NgClass, UpperCasePipe } from '@angular/common';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'lib-task-list',
@@ -31,63 +49,93 @@ import {ToastService} from "@task-manager/shared";
   styleUrls: ['./task-list.component.css'],
   standalone: true,
   imports: [
-    MatList,
-    MatListItem,
-    MatLine,
-    DatePipe,
-    MatInput,
     MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatCell,
-    MatHeaderCellDef,
-    MatCellDef,
+    MatPaginator,
+    MatFormField,
+    MatInput,
     MatButton,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRowDef,
-    MatRow,
     MatIcon,
-    MatCardContent,
     MatCard,
+    MatCardContent,
     MatCardHeader,
     MatCardTitle,
-    MatIconButton,
-    MatMiniFabButton,
     MatTooltip,
-    NgClass,
+    MatChip,
+    MatHeaderCell,
     UpperCasePipe,
-    MatChip
-  ]
+    NgClass,
+    MatMiniFabButton,
+    MatHeaderRow,
+    MatRow,
+    MatColumnDef,
+    MatIconButton,
+    MatCell,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatLabel,
+    MatHeaderRowDef,
+    MatRowDef,
+    FormsModule,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements OnInit ,AfterViewInit{
   tasks: Task[] = [];
-  displayedColumns: string[] = ['id', 'name', 'description', 'status','assignedTo', 'actions'];
-  constructor(private taskService: TaskService ,  private dialog: MatDialog , private toastService: ToastService) {
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'description',
+    'status',
+    'assignedTo',
+    'actions',
+  ];
+  dataSource: MatTableDataSource<Task>;
+  searchQuery = '';
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(
+    private taskService: TaskService,
+    private dialog: MatDialog,
+    private toastService: ToastService
+  ) {
+    this.dataSource = new MatTableDataSource(this.tasks);
+    this.paginator = this.dataSource.paginator as MatPaginator;
   }
 
   ngOnInit(): void {
     this.loadTasksFromLocalStorage();
+    this.dataSource.paginator = this.paginator;
   }
 
   loadTasksFromLocalStorage(): void {
     const tasksJson = localStorage.getItem('tasks');
     if (tasksJson) {
       this.tasks = JSON.parse(tasksJson);
+      this.dataSource.data = this.tasks;
     }
+  }
+
+  applyFilter() {
+    this.dataSource.filter = this.searchQuery.trim().toLowerCase();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   openAddTaskDialog() {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '650px',
-      data: { task: null }
+      data: { task: null },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.taskService.addTask(result);
-        this.toastService.showSuccess('Task created successfully')
-        this.loadTasksFromLocalStorage(); // Refresh task lists
+        this.toastService.showSuccess('Task created successfully');
+        this.loadTasksFromLocalStorage();
+        this.dataSource.paginator = this.paginator;
       }
     });
   }
@@ -95,21 +143,23 @@ export class TaskListComponent implements OnInit {
   openEditTaskDialog(task: Task) {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '650px',
-      data: { task }
+      data: { task },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.taskService.updateTask(result);
-        this.toastService.showSuccess('Task updated successfully')
+        this.toastService.showSuccess('Task updated successfully');
         this.loadTasksFromLocalStorage();
+        this.dataSource.paginator = this.paginator;
       }
     });
   }
 
   deleteTask(task: Task) {
     this.taskService.deleteTask(task.id);
-    this.toastService.showSuccess('Task deleted successfully')
+    this.toastService.showSuccess('Task deleted successfully');
     this.loadTasksFromLocalStorage();
+    this.dataSource.paginator = this.paginator;
   }
 }
