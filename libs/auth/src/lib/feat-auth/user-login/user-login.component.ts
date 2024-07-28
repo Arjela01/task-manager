@@ -15,6 +15,7 @@ import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import {AuthService} from "../../data-access-auth/services/auth.service";
+import {ToastService} from "@task-manager/shared";
 
 @Component({
   selector: 'lib-user-login',
@@ -44,7 +45,8 @@ export class UserLoginComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService,
   ) {
     this.loginForm = this.fb.group({
       email: [
@@ -73,16 +75,18 @@ export class UserLoginComponent {
             localStorage.setItem('user', JSON.stringify(response));
             const userRole = response.role;
             if (userRole === 'admin') {
+              this.toastService.showSuccess('Login was successful')
               this.router.navigateByUrl('/admin-dashboard');
             } else if (userRole === 'employee') {
               this.router.navigateByUrl('/employee-dashboard');
+              this.toastService.showSuccess('Login was successful')
             } else {
-              console.log(response.errorMessage)
+              this.toastService.showError('Wrong Credentials')
             }
           }
         },
         (error) => {
-          console.log(error);
+          this.toastService.showError(error)
         }
       );
     }

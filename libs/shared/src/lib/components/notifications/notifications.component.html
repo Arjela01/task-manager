@@ -1,0 +1,30 @@
+<h1 mat-dialog-title class="notification-title">
+ <span>Notifications</span>
+  <button mat-button class="clear-button" (click)="clearNotifications()">
+    Clear
+  </button>
+</h1>
+<div mat-dialog-content class="notification-content">
+  <div *ngIf="notifications.length === 0" class="no-notifications">
+    <p>There are no notifications</p>
+  </div>
+  <div
+    *ngFor="let notification of notifications"
+    class="notification-item"
+    [ngClass]="{ read: notification.read }"
+    (click)="markAsRead(notification)"
+  >
+    <p class="notification-message">{{ notification.message }}</p>
+    <div class="notification-footer">
+      <small class="notification-author"
+        >by <strong>{{ notification.author }}</strong></small
+      >
+      <small class="notification-timestamp">{{
+        notification.timestamp | date : 'short'
+      }}</small>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

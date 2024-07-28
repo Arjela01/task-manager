@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardActions } from '@angular/material/card';
-import { HeaderComponent } from '../../header/header.component';
 import { StatisticsComponent } from '../../statistics/statistics.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 import {
@@ -16,7 +15,6 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
     MatCardActions,
     StatisticsComponent,
     SidebarComponent,

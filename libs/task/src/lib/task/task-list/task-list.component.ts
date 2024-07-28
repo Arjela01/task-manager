@@ -62,7 +62,7 @@ import {ToastService} from "@task-manager/shared";
 })
 export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
-  displayedColumns: string[] = ['id', 'name', 'description', 'status', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'description', 'status','assignedTo', 'actions'];
   constructor(private taskService: TaskService ,  private dialog: MatDialog , private toastService: ToastService) {
   }
 

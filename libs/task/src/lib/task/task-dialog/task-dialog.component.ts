@@ -4,21 +4,39 @@ import {
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
+  MatDialogTitle,
 } from '@angular/material/dialog';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Attachment, Task, Comment, TaskStatus} from "../../models/task.model";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatList, MatListItem} from "@angular/material/list";
-import {MatLine, MatOption} from "@angular/material/core";
-import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
-import {MatInput} from "@angular/material/input";
-import {MatButton, MatIconButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
-import {MatSelect} from "@angular/material/select";
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
-import { Observable} from "rxjs";
-import {UserService} from "../../services/users.service";
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Attachment, Task, Comment, TaskStatus } from '../../models/task.model';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatLine, MatOption } from '@angular/material/core';
+import {
+  AsyncPipe,
+  DatePipe,
+  NgForOf,
+  NgIf,
+  TitleCasePipe,
+} from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
+import { Observable } from 'rxjs';
+import { UserService } from '../../services/users.service';
+import { NotificationService } from '@task-manager/shared';
+import { AuthService } from '@task-manager/auth';
 
 @Component({
   selector: 'lib-task-dialog',
@@ -48,10 +66,10 @@ import {UserService} from "../../services/users.service";
     MatCard,
     MatCardHeader,
     MatCardContent,
-      MatCardTitle,
-      MatError,
-      AsyncPipe,
-  ]
+    MatCardTitle,
+    MatError,
+    AsyncPipe,
+  ],
 })
 export class TaskDialogComponent implements OnInit {
   form!: FormGroup;
@@ -62,15 +80,21 @@ export class TaskDialogComponent implements OnInit {
   nextCommentId = 1;
   nextAttachmentId = 1;
   userEmails$: Observable<string[]>;
+  currentUserEmail!: string;
+  originalAssignedTo?: string;
+  mentionUser = '';
 
   constructor(
-      private fb: FormBuilder,
-      public dialogRef: MatDialogRef<TaskDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: { task?: Task },
-      private userService: UserService
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<TaskDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { task?: Task },
+    private userService: UserService,
+    private notificationsService: NotificationService,
+    private authService: AuthService
   ) {
     this.isEditMode = !!data.task;
     this.userEmails$ = this.userService.getUserEmails();
+    this.originalAssignedTo = data.task?.assignedTo;
   }
 
   ngOnInit(): void {
@@ -84,17 +108,49 @@ export class TaskDialogComponent implements OnInit {
 
     this.comments = this.data.task?.comments || [];
     this.attachments = this.data.task?.attachments || [];
+
+    this.currentUserEmail = this.authService.getUser().username as string;
   }
 
   addComment(commentText: string) {
     if (commentText.trim()) {
-      this.comments.push({
+      const mentionUsername = this.extractMentionUsername(commentText);
+      this.mentionUser = mentionUsername
+        ? `${mentionUsername}@example.com`
+        : '';
+
+      this.comments.push(<Comment>{
         id: this.nextCommentId++,
-        author: 'Current User',
+        author: this.currentUserEmail,
         text: commentText,
-        timestamp: new Date()
+        timestamp: new Date(),
+        mention: mentionUsername,
       });
+
+      if (this.mentionUser) {
+        const notificationMessage = commentText
+          .replace(`@${mentionUsername}`, '')
+          .trim();
+        this.notificationsService.addNotification(this.mentionUser, {
+          message: `You were mentioned in a comment: "${notificationMessage}"`,
+          timestamp: new Date(),
+          read: false,
+          author: this.currentUserEmail,
+        });
+      }
     }
+  }
+
+  private extractMentionUsername(commentText: string): string | null {
+    const mentionPattern = /@(\w+)/;
+    const match = commentText.match(mentionPattern);
+    return match ? match[1] : null;
+  }
+
+  private extractMentionEmail(commentText: string): string | null {
+    const mentionPattern = /@([\w.-]+@[\w.-]+)/;
+    const match = commentText.match(mentionPattern);
+    return match ? match[1] : null;
   }
 
   addAttachment(event: Event) {
@@ -104,7 +160,7 @@ export class TaskDialogComponent implements OnInit {
       const attachment = {
         id: this.nextAttachmentId++,
         fileName: file.name,
-        fileUrl: URL.createObjectURL(file)
+        fileUrl: URL.createObjectURL(file),
       };
       this.attachments.push(attachment);
       input.value = '';
@@ -112,7 +168,7 @@ export class TaskDialogComponent implements OnInit {
   }
 
   removeAttachment(attachment: Attachment) {
-    const index = this.attachments.findIndex(att => att.id === attachment.id);
+    const index = this.attachments.findIndex((att) => att.id === attachment.id);
     if (index > -1) {
       this.attachments.splice(index, 1);
     }
@@ -123,8 +179,18 @@ export class TaskDialogComponent implements OnInit {
       const task: Task = {
         ...this.form.value,
         comments: this.comments,
-        attachments: this.attachments
+        attachments: this.attachments,
       };
+
+      if (this.originalAssignedTo !== task.assignedTo) {
+        this.notificationsService.addNotification(task.assignedTo, {
+          message: `Task "${task.name}" has been assigned to you.`,
+          timestamp: new Date(),
+          read: false,
+          author: this.currentUserEmail,
+        });
+      }
+
       this.dialogRef.close(task);
     }
   }
