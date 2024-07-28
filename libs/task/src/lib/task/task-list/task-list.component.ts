@@ -23,10 +23,10 @@ import {TaskService} from "../../services/task.service";
 import {TaskDialogComponent} from "../task-dialog/task-dialog.component";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatChip} from "@angular/material/chips";
-import {ToastService} from "../../services/global.service";
+import {ToastService} from "@task-manager/shared";
 
 @Component({
-  selector: 'app-task-list',
+  selector: 'lib-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
   standalone: true,

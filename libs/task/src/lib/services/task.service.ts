@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Task } from "../models/task.model";
-import { TaskData } from "@task-manager/shared";
+import {TaskData} from '../mock-data/mock-data'
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class TaskService {
             this.nextId = this.tasks.length ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1;
         } else {
             // Initialize with predefined tasks
-            this.tasks = TaskData;
+            this.tasks = TaskData as Task[];
             this.saveTasksToLocalStorage();
         }
     }

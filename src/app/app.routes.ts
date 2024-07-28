@@ -1,19 +1,24 @@
 import { Route } from '@angular/router';
-import { NoAuthGuard } from '../../libs/login/src/lib/data-access-auth/services/no-auth.guard';
-import {TaskListComponent} from "@task-manager/task";
-import {AdminDashboardComponent, StatisticsComponent} from "@task-manager/components";
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { NoAuthGuard } from '@task-manager/auth';
+import { TaskListComponent } from '@task-manager/task';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  AdminDashboardComponent,
+  StatisticsComponent,
+} from '@task-manager/core';
 
 export const appRoutes: Route[] = [
   {
     path: 'login',
     canActivate: [NoAuthGuard],
     loadComponent: () =>
-      import('@task-manager/login').then((m) => m.UserLoginComponent),
+      import('@task-manager/auth').then((m) => m.UserLoginComponent),
   },
   {
     path: 'employee-dashboard',
     loadComponent: () =>
-      import('@task-manager/components').then((m) => m.EmployeeDashboardComponent),
+      import('@task-manager/core').then((m) => m.EmployeeDashboardComponent),
   },
   {
     path: 'admin-dashboard',
@@ -21,8 +26,8 @@ export const appRoutes: Route[] = [
     children: [
       { path: '', redirectTo: 'statistics', pathMatch: 'full' },
       { path: 'statistics', component: StatisticsComponent },
-      { path: 'task-list', component: TaskListComponent }
-    ]
+      { path: 'task-list', component: TaskListComponent },
+    ],
   },
   {
     path: '404',
