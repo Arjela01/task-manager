@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MockUsers } from '@task-manager/shared';
+import {MockUsers} from "../mock-data/mock-data";
 
 @Injectable({
     providedIn: 'root',

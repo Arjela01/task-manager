@@ -21,7 +21,7 @@ import { Observable} from "rxjs";
 import {UserService} from "../../services/users.service";
 
 @Component({
-  selector: 'app-task',
+  selector: 'lib-task-dialog',
   templateUrl: './task-dialog.component.html',
   styleUrls: ['./task-dialog.component.css'],
   standalone: true,

@@ -7,9 +7,8 @@ import {
 } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {
-  AUTH_FEATURE_KEY, authReducer,
-} from '@task-manager/login';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { AUTH_FEATURE_KEY, authReducer } from '@task-manager/auth';
 import { provideStore } from '@ngrx/store';
 import {
   provideHttpClient,
@@ -24,12 +23,12 @@ export const appConfig: ApplicationConfig = {
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
-        appRoutes,
-        withPreloading(PreloadAllModules),
-        withInMemoryScrolling({
-          scrollPositionRestoration: 'enabled',
-          anchorScrolling: 'enabled',
-        })
+      appRoutes,
+      withPreloading(PreloadAllModules),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      })
     ),
     provideAnimationsAsync(),
   ],

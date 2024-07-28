@@ -16,8 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@task-manager/auth": ["libs/auth/src/index.ts"],
-      "@task-manager/components": ["libs/components/src/index.ts"],
-      "@task-manager/login": ["libs/login/src/index.ts"],
+      "@task-manager/core": ["libs/core/src/index.ts"],
       "@task-manager/main": ["main/src/index.ts"],
       "@task-manager/shared": ["libs/shared/src/index.ts"],
       "@task-manager/task": ["libs/task/src/index.ts"],

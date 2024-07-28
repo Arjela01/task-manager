@@ -1,18 +1,16 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import {AuthFacade} from '@task-manager/login';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { AuthFacade } from '@task-manager/auth';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { EmployeeDashboardComponent } from '@task-manager/components';
-import { HeaderComponent } from '../../libs/components/src/lib/header/header.component';
 
 @Component({
   standalone: true,
   imports: [
     NxWelcomeComponent,
     RouterModule,
-    EmployeeDashboardComponent,
-    HeaderComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
