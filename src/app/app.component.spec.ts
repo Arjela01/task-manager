@@ -1,22 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import {MockStore, provideMockStore} from "@ngrx/store/testing";
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {AuthFacade, AuthService} from "@task-manager/auth";
 
 describe('AppComponent', () => {
+  let store: MockStore;
+  let authFacade: AuthFacade;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, NxWelcomeComponent, RouterModule.forRoot([])],
+      imports: [
+        AppComponent,
+        RouterModule.forRoot([]),
+        TranslateModule.forRoot(),
+      ],
+      providers: [
+        provideMockStore({
+          selectors: [],
+        }),
+        { provide: AuthFacade },
+        { provide: AuthService },
+      ],
     }).compileComponents();
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome task-manager'
-    );
+    store = TestBed.inject(MockStore);
+    authFacade = TestBed.inject(AuthFacade);
   });
 
   it(`should have as title 'task-manager'`, () => {

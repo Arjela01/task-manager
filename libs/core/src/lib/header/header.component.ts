@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.user = this.authService.getUser();
     this.notificationService
-      .getNotifications(this.user.username as string)
+      .getNotifications(this.user?.username as string)
       .subscribe((notifications) => {
         this.notifications = notifications;
         this.unreadCount = notifications.filter(
