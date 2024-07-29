@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,9 +14,9 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import {AuthService} from "../../data-access-auth/services/auth.service";
-import {ToastService} from "@task-manager/shared";
-import {TranslateModule} from "@ngx-translate/core";
+import { AuthService } from "../../data-access-auth/services/auth.service";
+import { ToastService } from "@task-manager/shared";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: 'lib-user-login',
@@ -38,17 +38,17 @@ import {TranslateModule} from "@ngx-translate/core";
   ],
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLoginComponent {
   loginForm: FormGroup;
   hidePassword = true;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private toastService: ToastService
+      private fb: FormBuilder,
+      private router: Router,
+      private authService: AuthService,
+      private toastService: ToastService,
+      private cd: ChangeDetectorRef,
   ) {
     this.loginForm = this.fb.group({
       email: [
@@ -56,7 +56,7 @@ export class UserLoginComponent {
         [
           Validators.required,
           Validators.pattern(
-            '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'
+              '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'
           ),
         ],
       ],
@@ -71,25 +71,31 @@ export class UserLoginComponent {
         password: this.loginForm.value.password,
       };
       this.authService.login(loginRequest).subscribe(
-        (response) => {
-          if (response) {
-            localStorage.setItem('authToken', response.token);
-            localStorage.setItem('user', JSON.stringify(response));
-            const userRole = response.role;
-            if (userRole === 'admin') {
+          (response) => {
+            if (response) {
+              localStorage.setItem('authToken', response.token);
+              localStorage.setItem('user', JSON.stringify(response));
+              const userRole = response.role;
               this.toastService.showSuccess('Login was successful');
-              this.router.navigateByUrl('/admin-dashboard');
-            } else if (userRole === 'employee') {
-              this.router.navigateByUrl('/employee-dashboard');
-              this.toastService.showSuccess('Login was successful');
-            } else {
-              this.toastService.showError('Wrong Credentials');
+
+              let navigateTo = '';
+              if (userRole === 'admin') {
+                navigateTo = '/admin-dashboard';
+              } else if (userRole === 'employee') {
+                navigateTo = '/employee-dashboard';
+              } else {
+                this.toastService.showError('Wrong Credentials');
+                return;
+              }
+
+              this.router.navigate([navigateTo]).then(() => {
+                this.cd.detectChanges();
+              });
             }
+          },
+          (error) => {
+            this.toastService.showError(error);
           }
-        },
-        (error) => {
-          this.toastService.showError(error);
-        }
       );
     }
   }

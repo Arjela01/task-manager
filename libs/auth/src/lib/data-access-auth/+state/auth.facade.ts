@@ -9,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 export class AuthFacade {
   private readonly store = inject(Store);
 
-  isLoading$ = this.store.select(authQuery.selectIsLoading);
   error$ = this.store.select(authQuery.selectError);
   isAuthenticated$ = this.store.select(authQuery.selectIsAuthenticated);
   user$ = this.store.select(authQuery.selectUser);

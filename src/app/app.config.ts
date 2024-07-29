@@ -11,7 +11,7 @@ import {
 import { appRoutes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { AUTH_FEATURE_KEY, authReducer } from '@task-manager/auth';
+import {AUTH_FEATURE_KEY, authFeature} from '@task-manager/auth';
 import { provideStore } from '@ngrx/store';
 import {
   HttpClient,
@@ -33,7 +33,7 @@ export const appConfig = {
   providers: [
     provideHttpClient(),
     provideStore({
-      [AUTH_FEATURE_KEY]: authReducer,
+      [AUTH_FEATURE_KEY]: authFeature.reducer,
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
