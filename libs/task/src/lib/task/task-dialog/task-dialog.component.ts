@@ -15,18 +15,10 @@ import {
 import { Attachment, Task, Comment, TaskStatus } from '../../models/task.model';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatList, MatListItem } from '@angular/material/list';
-import { MatLine, MatOption } from '@angular/material/core';
-import {
-  AsyncPipe,
-  DatePipe,
-  NgForOf,
-  NgIf,
-  TitleCasePipe,
-} from '@angular/common';
 import { MatInput } from '@angular/material/input';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatSelect } from '@angular/material/select';
+import {MatOption, MatSelect} from '@angular/material/select';
 import {
   MatCard,
   MatCardContent,
@@ -38,7 +30,9 @@ import { UserService } from '../../services/users.service';
 import { NotificationService } from '@task-manager/shared';
 import { AuthService } from '@task-manager/auth';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { MatCommonModule } from '@angular/material/core';
 
 @Component({
   selector: 'lib-task-dialog',
@@ -52,27 +46,23 @@ import {TranslateModule} from "@ngx-translate/core";
     MatFormField,
     MatList,
     MatListItem,
-    MatLine,
-    DatePipe,
     MatInput,
     MatButton,
-    NgForOf,
     MatDialogActions,
     MatLabel,
     MatIconButton,
     MatIcon,
-    TitleCasePipe,
-    MatOption,
     MatSelect,
-    NgIf,
     MatCard,
     MatCardHeader,
     MatCardContent,
     MatCardTitle,
     MatError,
-    AsyncPipe,
     MatTab,
     MatTabGroup,
+    CommonModule,
+    MatCommonModule,
+      MatOption,
     TranslateModule,
   ],
 })
@@ -88,7 +78,7 @@ export class TaskDialogComponent implements OnInit {
   currentUserEmail!: string;
   originalAssignedTo?: string;
   mentionUser = '';
-  teamMembers = [''];
+  teamMembers: string[] = [];
   filteredTeamMembers: string[] = [];
   showMentionsDropdown = false;
   teamMemberSelected = false;
@@ -117,8 +107,8 @@ export class TaskDialogComponent implements OnInit {
 
     this.comments = this.data.task?.comments || [];
     this.attachments = this.data.task?.attachments || [];
-
     this.currentUserEmail = this.authService.getUser().username as string;
+
     this.userService.getUserEmails().subscribe((emails) => {
       this.teamMembers = emails.map((email) => email.split('@')[0]);
     });
@@ -156,12 +146,12 @@ export class TaskDialogComponent implements OnInit {
 
   addComment(commentText: string) {
     if (commentText.trim()) {
-      const mentionUsername = this.extractMentionUsername(commentText);
+      const mentionUsername = this.extractMentionUsername(commentText) as string;
       this.mentionUser = mentionUsername
         ? `${mentionUsername}@example.com`
         : '';
 
-      this.comments.push(<Comment>{
+      this.comments.push({
         id: this.nextCommentId++,
         author: this.currentUserEmail,
         text: commentText,

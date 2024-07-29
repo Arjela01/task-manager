@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { NoAuthGuard } from '@task-manager/auth';
+import {AuthGuard, NoAuthGuard} from '@task-manager/auth';
 import { TaskListComponent } from '@task-manager/task';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {

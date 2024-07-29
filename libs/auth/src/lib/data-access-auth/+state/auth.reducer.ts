@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, createFeature, createReducer, on } from '@ngrx/store';
 import { GenericStoreStatus, User } from '../models/user.model';
 import { AuthActions } from './auth.actions';
 
@@ -24,53 +24,57 @@ export const initialAuthState: AuthState = {
   status: 'initial',
 };
 
-export const authReducer = createReducer(
-  initialAuthState,
-  on(AuthActions.initAuth, (state) => ({
-    ...state,
-    status: 'pending',
-  })),
-  on(AuthActions.authInitSuccess, (state, { token, user }) => ({
-    ...state,
-    status: 'success',
-    isAuthenticated: true,
-    token,
-    user,
-  })),
-  on(AuthActions.login, (state) => ({
-    ...state,
-    status: 'loading',
-    error: null,
-  })),
-  on(AuthActions.loginSuccess, (state, { loginResponse }) => ({
-    ...state,
-    status: 'success',
-    isAuthenticated: true,
-    token: loginResponse.token,
-    user: {
-      displayName: loginResponse.displayName,
-      username: loginResponse.username,
-      role: loginResponse.role,
-    },
-  })),
-  on(AuthActions.loginFailure, (state, { error }) => ({
-    ...state,
-    status: 'error',
-    error,
-  })),
-  on(AuthActions.logout, (state) => ({
-    ...state,
-    status: 'success',
-    isAuthenticated: false,
-    token: '',
-    user: {
-      displayName: '',
-      username: '',
-      role: '',
-    },
-  }))
-);
+export const authFeature = createFeature({
+  name: AUTH_FEATURE_KEY,
+  reducer: createReducer(
+    initialAuthState,
+    on(AuthActions.initAuth, (state) => ({
+      ...state,
+      status: 'pending',
+    })),
+    on(AuthActions.authInitSuccess, (state, { token, user }) => ({
+      ...state,
+      status: 'success',
+      isAuthenticated: true,
+      token,
+      user,
+    })),
+    on(AuthActions.login, (state) => ({
+      ...state,
+      status: 'loading',
+      error: null,
+    })),
+    on(AuthActions.loginSuccess, (state, { loginResponse }) => ({
+      ...state,
+      status: 'success',
+      isAuthenticated: true,
+      token: loginResponse.token,
+      user: {
+        displayName: loginResponse.displayName,
+        username: loginResponse.username,
+        role: loginResponse.role,
+      },
+    })),
+    on(AuthActions.loginFailure, (state, { error }) => ({
+      ...state,
+      status: 'error',
+      error,
+    })),
+    on(AuthActions.logout, (state) => ({
+      ...state,
+      status: 'success',
+      isAuthenticated: false,
+      token: '',
+      user: {
+        displayName: '',
+        username: '',
+        role: '',
+      },
+    }))
+  ),
+});
+const reducer = createReducer(initialAuthState);
 
-export function reducer(state: AuthState | undefined, action: Action) {
-  return authReducer(state, action);
+export function authReducer(state: AuthState | undefined, action: Action) {
+  return reducer(state, action);
 }
