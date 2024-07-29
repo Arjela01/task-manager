@@ -37,6 +37,8 @@ import { Observable } from 'rxjs';
 import { UserService } from '../../services/users.service';
 import { NotificationService } from '@task-manager/shared';
 import { AuthService } from '@task-manager/auth';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'lib-task-dialog',
@@ -69,6 +71,9 @@ import { AuthService } from '@task-manager/auth';
     MatCardTitle,
     MatError,
     AsyncPipe,
+    MatTab,
+    MatTabGroup,
+    TranslateModule,
   ],
 })
 export class TaskDialogComponent implements OnInit {
@@ -83,6 +88,10 @@ export class TaskDialogComponent implements OnInit {
   currentUserEmail!: string;
   originalAssignedTo?: string;
   mentionUser = '';
+  teamMembers = [''];
+  filteredTeamMembers: string[] = [];
+  showMentionsDropdown = false;
+  teamMemberSelected = false;
 
   constructor(
     private fb: FormBuilder,
@@ -110,6 +119,39 @@ export class TaskDialogComponent implements OnInit {
     this.attachments = this.data.task?.attachments || [];
 
     this.currentUserEmail = this.authService.getUser().username as string;
+    this.userService.getUserEmails().subscribe((emails) => {
+      this.teamMembers = emails.map((email) => email.split('@')[0]);
+    });
+  }
+
+  onCommentInput(value: string) {
+    const mentionIndex = value.lastIndexOf('@');
+    if (mentionIndex !== -1) {
+      const searchTerm = value.slice(mentionIndex + 1).trim();
+      if (searchTerm && !this.teamMemberSelected) {
+        this.filteredTeamMembers = this.teamMembers.filter((member) =>
+          member.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        this.showMentionsDropdown = true;
+      } else {
+        this.showMentionsDropdown = false;
+      }
+    } else {
+      this.showMentionsDropdown = false;
+    }
+  }
+
+  selectTeamMember(member: string) {
+    const textarea: HTMLTextAreaElement | null = document.querySelector(
+      '#commentText'
+    ) as HTMLTextAreaElement;
+    if (textarea) {
+      const value = textarea.value;
+      const mentionIndex = value.lastIndexOf('@');
+      textarea.value = value.slice(0, mentionIndex + 1) + member + ' ';
+      this.showMentionsDropdown = false;
+      this.teamMemberSelected = true;
+    }
   }
 
   addComment(commentText: string) {
@@ -143,12 +185,6 @@ export class TaskDialogComponent implements OnInit {
 
   private extractMentionUsername(commentText: string): string | null {
     const mentionPattern = /@(\w+)/;
-    const match = commentText.match(mentionPattern);
-    return match ? match[1] : null;
-  }
-
-  private extractMentionEmail(commentText: string): string | null {
-    const mentionPattern = /@([\w.-]+@[\w.-]+)/;
     const match = commentText.match(mentionPattern);
     return match ? match[1] : null;
   }

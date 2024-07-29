@@ -1,0 +1,39 @@
+.custom-dropdown {
+    position: relative;
+    width: 200px;
+    margin: 20px auto;
+}
+
+.custom-label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+.custom-select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><path d="M6 9l6-6 6 6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #0056b3;
+}
+
+.custom-select option {
+    padding: 10px;
+}

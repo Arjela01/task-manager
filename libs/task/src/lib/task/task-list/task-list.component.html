@@ -1,62 +1,88 @@
 <mat-card class="task-card">
-    <mat-card-header class="task-card-header">
-        <mat-card-title>Task List</mat-card-title>
-        <div class="search-container">
-            <input matInput placeholder="Search" [(ngModel)]="searchQuery" (input)="applyFilter()">
-        </div>
-        <button mat-mini-fab color="primary" (click)="openAddTaskDialog()" matTooltip="Add Task">
-            <mat-icon>add</mat-icon>
-        </button>
-    </mat-card-header>
-    <mat-card-content>
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8 task-table">
-            <!-- ID Column -->
-            <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
-                <mat-cell *matCellDef="let task">{{task.id}}</mat-cell>
-            </ng-container>
+  <mat-card-header class="task-card-header">
+    <mat-card-title>{{ 'Task List' | translate }}</mat-card-title>
+    <div class="search-container">
+      <input
+        matInput
+        placeholder="Search"
+        [(ngModel)]="searchQuery"
+        (input)="applyFilter()"
+      />
+    </div>
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="openAddTaskDialog()"
+      matTooltip="Add Task"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 task-table">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>{{
+          'No.' | translate
+        }}</mat-header-cell>
+        <mat-cell *matCellDef="let task">{{ task.id }}</mat-cell>
+      </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                <mat-cell *matCellDef="let task">{{task.name}}</mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>{{
+          'Name' | translate
+        }}</mat-header-cell>
+        <mat-cell *matCellDef="let task">{{ task.name }}</mat-cell>
+      </ng-container>
 
-            <!-- Description Column -->
-            <ng-container matColumnDef="description">
-                <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-                <mat-cell *matCellDef="let task">{{task.description}}</mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>{{
+          'Description' | translate
+        }}</mat-header-cell>
+        <mat-cell *matCellDef="let task">{{ task.description }}</mat-cell>
+      </ng-container>
 
-            <!-- Status Column -->
-            <ng-container matColumnDef="status">
-                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-                <mat-cell *matCellDef="let task">
-                    <mat-chip [ngClass]="task.status">{{ task.status | uppercase }}</mat-chip>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>{{
+          'Status' | translate
+        }}</mat-header-cell>
+        <mat-cell *matCellDef="let task">
+          <mat-chip [ngClass]="task.status">{{
+            task.status | uppercase
+          }}</mat-chip>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="assignedTo">
-                <mat-header-cell *matHeaderCellDef>Assigned to</mat-header-cell>
-                <mat-cell *matCellDef="let task">{{task.assignedTo}}</mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="assignedTo">
+        <mat-header-cell *matHeaderCellDef>{{
+          'Assigned to' | translate
+        }}</mat-header-cell>
+        <mat-cell *matCellDef="let task">{{ task.assignedTo }}</mat-cell>
+      </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-                <mat-cell *matCellDef="let task">
-                    <button mat-icon-button color="accent" (click)="openEditTaskDialog(task)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="deleteTask(task)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>{{
+          'Actions' | translate
+        }}</mat-header-cell>
+        <mat-cell *matCellDef="let task">
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="openEditTaskDialog(task)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteTask(task)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons="5"></mat-paginator>
-    </mat-card-content>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons="5"
+    ></mat-paginator>
+  </mat-card-content>
 </mat-card>

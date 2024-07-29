@@ -1,235 +1,163 @@
-.task-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.custom-tab-group .mat-tab-labels {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #2196f3;
+}
+
+.custom-tab-group .mat-tab-label {
+  color: #2196f3;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.custom-tab-group .mat-tab-label.mat-tab-label-active {
+  color: #fff;
+  background-color: #2196f3;
+  border-radius: 4px 4px 0 0;
+}
+
+.custom-tab-group .mat-ink-bar {
+  background: none;
+}
+
+.custom-tab-group .mat-tab-body-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  padding: 16px;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
-.mat-card {
-    border-radius: 8px;
-    background-color: white; /* Ensure the background color is white */
-}
-
-.comments-card, .attachments-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.comments-content, .attachments-content {
-    padding: 16px;
-}
-
-.add-comment-section, .add-attachment-section {
-    margin-top: 16px;
-}
-
-.add-comment-section mat-form-field, .add-attachment-section {
-    margin-bottom: 16px;
-}
-
-.file-input-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-top: 16px;
-}
-
-.file-input-label mat-icon {
-    margin-right: 8px;
-}
-
-.mat-card-title {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-button.mat-raised-button {
-    margin-top: 16px;
-}
-
-.comment-item, .attachment-item {
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9; /* Light background for comments and attachments */
-}
-
-.comment-author {
-    color: #1e88e5; /* Blue color for the commenter's name */
-    font-weight: bold;
-    margin-bottom: 4px;
-}
-
-.comment-timestamp {
-    color: #616161; /* Darker gray for the timestamp */
-    font-size: 0.875em;
-}
-.comments-section {
-    background-color: #f0f8ff; /* Light Blue */
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 11px 12px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.comments-title {
-    color: #0033cc; /* Blue */
-    margin-bottom: 8px;
-}
-
-.comments-list-container {
-    background-color: #ffffff; /* White */
-    padding: 8px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.comments-list {
-    padding: 0;
-    margin: 0;
-}
-
-.comment-author {
-    color: #0033cc; /* Blue */
-    font-weight: bold;
-}
-
-.comment-text {
-    color: #333; /* Dark Gray */
-    margin: 4px 0;
-}
-
-.add-comment-btn {
-    align-self: flex-start;
-    margin-top: 8px;
-}
+.comments-section,
 .attachments-section {
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 11px 12px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 34px;
+  margin-top: 16px;
 }
 
+.comments-title,
 .attachments-title {
-    color: black; /* Blue */
-    margin-bottom: 8px;
+  font-size: 1.2em;
+  color: #2196f3;
+  margin-bottom: 8px;
 }
 
+.comments-list-container,
 .attachments-list-container {
-    background-color: #ffffff; /* White */
-    padding: 8px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  margin-bottom: 16px;
 }
 
-.attachments-list {
-    padding: 0;
-    margin: 0;
+.comment-item,
+.attachment-item {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  background-color: #eff8ff;
 }
 
+.comment-text,
+.attachment-text {
+  color: #424242;
+  margin-bottom: 4px;
+}
+
+.comment-footer,
+.attachment-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85em;
+  color: #757575;
+}
+
+.comment-author,
 .attachment-link {
-    color: #0033cc; /* Blue */
-    text-decoration: none;
-    margin-right: 8px;
-    flex: 1;
+  font-weight: bold;
+  color: #1976d2;
 }
 
-.attachment-link:hover {
-    text-decoration: underline;
+.comment-timestamp,
+.attachment-timestamp {
+  font-size: 0.85em;
+  color: #757575;
+}
+
+.attachment-link a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.attachment-link a:hover {
+  text-decoration: underline;
 }
 
 .delete-attachment-btn {
-    color: #cc0000;
-    font-size: 16px;
+  color: #f44336;
+  padding-bottom: 15px;
+  padding-top: 0;
 }
 
 .file-input-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: #0033cc; /* Blue */
-    margin-top: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #2196f3;
 }
 
 .file-input-label mat-icon {
-    margin-right: 8px;
-}
-.comments-section {
-    background: none;
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 11px 12px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.comments-title {
-    color: black; /* Blue */
-    margin-bottom: 8px;
-}
-
-.comments-list-container {
-    background-color: #ffffff; /* White */
-    padding: 8px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.comments-list {
-    padding: 0;
-    margin: 0;
-}
-
-.comment-author {
-    color: #0033cc; /* Blue */
-    font-weight: bold;
-}
-
-.comment-text {
-    color: #333; /* Dark Gray */
-    margin: 4px 0;
-}
-
-.add-comment-btn {
-    align-self: flex-start;
-    margin-top: 8px;
-}
-mat-list-item.mat-mdc-list-item.mdc-list-item.mat-mdc-list-item-single-line.mdc-list-item--with-one-line {
-    height: auto;
+  margin-right: 8px;
 }
 
 .link-button {
-    background: none;
-    color: #0033cc; /* Blue */
-    font-size: 14px; /* Match the size of text/icons */
-    padding: 0;
-    margin: 0;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
+  color: #2196f3;
+  display: flex;
+  align-items: center;
 }
 
 .link-button mat-icon {
-    margin-right: 8px;
+  margin-right: 4px;
 }
 
-.link-button:hover {
-    color: #0056b3; /* Darker Blue for hover effect */
+mat-list-item.mat-mdc-list-item.mdc-list-item.comment-item.mat-mdc-list-item-single-line.mdc-list-item--with-one-line {
+  height: 68px;
 }
-label.file-input-label {
-    display: flex;
-    justify-content: center;
-    margin: 6px;
+mat-list-item.mat-mdc-list-item.mdc-list-item.attachment-item.mat-mdc-list-item-single-line.mdc-list-item--with-one-line {
+  height: 68px;
 }
-.mat-mdc-dialog-content.mdc-dialog__content {
-    padding: 40px;
+
+.custom-tab-group {
+  margin-bottom: 20px;
+}
+
+.custom-tab-group .mat-tab-label {
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: bold;
+  border-radius: 4px 4px 0 0;
+  margin-right: 2px;
+}
+
+.custom-tab-group .mat-tab-label-active {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.mentions-dropdown {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.mentions-dropdown .mat-mdc-list-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.mentions-dropdown .mat-mdc-list-item:hover {
+  background-color: #eff8ff;
 }

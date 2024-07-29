@@ -1,115 +1,151 @@
-<h1 mat-dialog-title>{{ isEditMode ? 'Edit Task' : 'Add Task' }}</h1>
+<h1 mat-dialog-title>
+  {{ isEditMode ? 'Edit Task' : 'Add Task' | translate}}
+</h1>
 <div mat-dialog-content>
-  <form [formGroup]="form" class="task-form">
-    <!-- Task Name -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Task Name</mat-label>
-      <input matInput formControlName="name" placeholder="Enter task name" />
-      <mat-error *ngIf="form.get('name')?.hasError('required')">
-        Task Name is required.
-      </mat-error>
-    </mat-form-field>
+  <mat-tab-group class="custom-tab-group">
+    <mat-tab label="Task Details">
+      <form [formGroup]="form" class="task-form">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Task Name' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="Enter task name"
+          />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            {{ 'Task Name is required.' | translate }}
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Description -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        placeholder="Enter task description"
-      ></textarea>
-      <mat-error *ngIf="form.get('description')?.hasError('required')">
-        Description is required.
-      </mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Description' | translate }}</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Enter task description"
+          ></textarea>
+          <mat-error *ngIf="form.get('description')?.hasError('required')">
+            {{ 'Description is required.' | translate }}
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Status -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Status</mat-label>
-      <mat-select formControlName="status">
-        <mat-option *ngFor="let status of statuses" [value]="status">{{
-          status | titlecase
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Status' | translate }}</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statuses" [value]="status">{{
+              status | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <!-- Assigned To -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Assigned To</mat-label>
-      <mat-select formControlName="assignedTo">
-        <mat-option *ngFor="let email of userEmails$ | async" [value]="email">{{
-          email
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- Comments Section -->
-    <div class="comments-section">
-      <h3 class="comments-title">Comments</h3>
-      <div class="comments-list-container">
-        <mat-list class="comments-list">
-          <mat-list-item *ngFor="let comment of comments">
-            <h4 matLine class="comment-author">
-              {{ comment.author }} - {{ comment.timestamp | date : 'short' }}
-            </h4>
-            <p matLine class="comment-text">{{ comment.text }}</p>
-          </mat-list-item>
-        </mat-list>
-      </div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Add Comment</mat-label>
-        <textarea
-          matInput
-          #commentText
-          placeholder="Enter your comment"
-        ></textarea>
-      </mat-form-field>
-      <button
-        mat-button
-        class="link-button"
-        (click)="addComment(commentText.value); commentText.value = ''"
-      >
-        <mat-icon>add</mat-icon>
-        Add Comment
-      </button>
-    </div>
-
-    <!-- Attachments Section -->
-    <div class="attachments-section">
-      <h3 class="attachments-title">Attachments</h3>
-      <div class="attachments-list-container">
-        <mat-list class="attachments-list">
-          <mat-list-item *ngFor="let attachment of attachments">
-            <a
-              [href]="attachment.fileUrl"
-              target="_blank"
-              class="attachment-link"
-              >{{ attachment.fileName }}</a
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Assigned To' | translate }}</mat-label>
+          <mat-select formControlName="assignedTo">
+            <mat-option
+              *ngFor="let email of userEmails$ | async"
+              [value]="email"
+              >{{ email }}</mat-option
             >
-            <button
-              mat-icon-button
-              class="delete-attachment-btn"
-              (click)="removeAttachment(attachment)"
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </mat-tab>
+
+    <mat-tab label="Comments">
+      <div class="comments-section">
+        <div class="comments-list-container">
+          <mat-list class="comments-list">
+            <mat-list-item
+              *ngFor="let comment of comments"
+              class="comment-item"
             >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-list-item>
-        </mat-list>
+              <p matLine class="comment-text">{{ comment.text }}</p>
+              <div class="comment-footer">
+                <small class="comment-author"
+                  >by <strong>{{ comment.author }}</strong></small
+                >
+                <small class="comment-timestamp">{{
+                  comment.timestamp | date : 'short'
+                }}</small>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Add Comment' | translate }}</mat-label>
+          <textarea
+            matInput
+            #commentText
+            id="commentText"
+            placeholder="Enter your comment"
+            (input)="onCommentInput(commentText.value)"
+          ></textarea>
+        </mat-form-field>
+        <div *ngIf="showMentionsDropdown" class="mentions-dropdown">
+          <mat-list>
+            <mat-list-item
+              *ngFor="let member of filteredTeamMembers"
+              (click)="selectTeamMember(member)"
+              >{{ member }}</mat-list-item
+            >
+          </mat-list>
+        </div>
+        <button
+          mat-button
+          class="link-button"
+          (click)="addComment(commentText.value); commentText.value = ''"
+        >
+          <mat-icon>add</mat-icon>
+          {{ 'Add Comment' | translate }}
+        </button>
       </div>
-      <input
-        type="file"
-        (change)="addAttachment($event)"
-        id="file-input"
-        hidden
-      />
-      <label for="file-input" class="file-input-label">
-        <mat-icon>attach_file</mat-icon>
-        Add Attachment
-      </label>
-    </div>
-  </form>
+    </mat-tab>
+
+    <mat-tab label="Attachments">
+      <div class="attachments-section">
+        <div class="attachments-list-container">
+          <mat-list class="attachments-list">
+            <mat-list-item
+              *ngFor="let attachment of attachments"
+              class="attachment-item"
+            >
+              <p matLine class="attachment-text">{{ attachment.fileName }}</p>
+              <div class="attachment-footer">
+                <small class="attachment-link">
+                  <a [href]="attachment.fileUrl" target="_blank">{{
+                    'Open' | translate
+                  }}</a>
+                </small>
+                <button
+                  mat-icon-button
+                  class="delete-attachment-btn"
+                  (click)="removeAttachment(attachment)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <input
+          type="file"
+          (change)="addAttachment($event)"
+          id="file-input"
+          hidden
+        />
+        <label for="file-input" class="file-input-label">
+          <mat-icon>attach_file</mat-icon>
+          {{ 'Add Attachment' | translate }}
+        </label>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="dialogRef.close()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="save()">Save</button>
+  <button mat-button (click)="dialogRef.close()">
+    {{ 'Cancel' | translate }}
+  </button>
+  <button mat-raised-button color="primary" (click)="save()">
+    {{ 'Save' | translate }}
+  </button>
 </div>

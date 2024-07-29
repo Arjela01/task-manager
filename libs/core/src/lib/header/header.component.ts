@@ -12,13 +12,23 @@ import { Notification } from '@task-manager/shared';
 import { MatListItem } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
 import { User } from '@task-manager/auth';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateComponent } from '../translate/translate.component';
 
 @Component({
   selector: 'lib-header',
   standalone: true,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  imports: [MatIcon, NgIf, NgFor, MatListItem, MatTooltip],
+  imports: [
+    MatIcon,
+    NgIf,
+    NgFor,
+    MatListItem,
+    MatTooltip,
+    TranslateModule,
+    TranslateComponent,
+  ],
 })
 export class HeaderComponent implements OnInit {
   notifications: Notification[] = [];
@@ -51,8 +61,12 @@ export class HeaderComponent implements OnInit {
   }
 
   openNotifications(): void {
+    const sortedNotifications = this.notifications.sort((a, b) => {
+      return a.read === b.read ? 0 : a.read ? 1 : -1;
+    });
+
     const dialogRef = this.dialog.open(NotificationsComponent, {
-      data: { notifications: this.notifications },
+      data: { notifications: sortedNotifications },
       width: '500px',
     });
 

@@ -8,7 +8,6 @@
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <!-- SVG Path Data -->
         <path
           d="M14.4844 27.4376C14.679 26.9367 14.7717 26.4021 14.7573 25.865C14.7869 24.3764 15.1848 22.9184 15.9153 21.621C16.644 20.3258 17.6831 19.2321 18.9393 18.438C19.4044 18.1885 19.8141 17.8473 20.1435 17.4349C20.4729 17.0225 20.7153 16.5476 20.8559 16.0389C20.9965 15.5301 21.0324 14.9982 20.9615 14.4751C20.8906 13.9521 20.7143 13.4489 20.4433 12.996C20.0813 12.391 19.5603 11.895 18.9393 11.565C18.5833 11.318 18.2413 11.052 17.9153 10.767L17.0983 9.967C15.6012 8.3932 14.7617 6.30708 14.7513 4.135C14.7667 3.59777 14.6744 3.06288 14.4799 2.56188C14.2853 2.06089 13.9923 1.60395 13.6183 1.218C13.2459 0.832488 12.7997 0.52595 12.3062 0.316684C11.8128 0.107418 11.2823 -0.000286365 10.7463 5.71818e-07C10.2106 0.000756001 9.68051 0.108938 9.18738 0.318146C8.69424 0.527354 8.24808 0.833339 7.87527 1.218C7.50189 1.60462 7.20937 2.06183 7.01483 2.56287C6.82029 3.06391 6.72763 3.59872 6.74227 4.136C6.751 4.83344 6.9431 5.5163 7.29927 6.116C7.65421 6.71469 8.16096 7.20902 8.76827 7.549C11.2273 9.105 12.9383 12.08 12.9383 15.006C12.9322 17.1592 12.1087 19.2298 10.6343 20.799L8.77427 22.451C8.16727 22.79 7.66027 23.284 7.30427 23.884C6.94727 24.483 6.75627 25.167 6.74727 25.865C6.73197 26.4022 6.82434 26.9371 7.01892 27.438C7.2135 27.939 7.50637 28.396 7.88027 28.782C8.2527 29.1674 8.69894 29.4739 9.19237 29.6832C9.68579 29.8924 10.2163 30.0002 10.7523 30C11.2881 29.9994 11.8184 29.8913 12.3117 29.682C12.805 29.4728 13.2513 29.1668 13.6243 28.782C13.9975 28.3955 14.2899 27.9384 14.4844 27.4376Z"
           fill="#0EA5E9"
@@ -36,27 +35,33 @@
       </svg>
     </div>
     <div class="header-text">
-      <h1>Login</h1>
+      <h1>{{ 'login' | translate }}</h1>
     </div>
   </div>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field class="full-width">
-      <mat-label>Email</mat-label>
+      <mat-label>{{ 'email' | translate }}</mat-label>
       <input matInput formControlName="email" required />
       <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
-        <div *ngIf="email.errors?.['required']">Email is required.</div>
-        <div *ngIf="email.errors?.['email']">Enter a valid email address.</div>
+        <div *ngIf="email.errors?.['required']">
+          {{ 'email_required' | translate }}
+        </div>
+        <div *ngIf="email.errors?.['email']">
+          {{ 'email_invalid' | translate }}
+        </div>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <mat-label>Password</mat-label>
+      <mat-label>{{ 'password' | translate }}</mat-label>
       <input matInput type="password" formControlName="password" required />
       <mat-error
         *ngIf="password.invalid && (password.dirty || password.touched)"
       >
-        <div *ngIf="password.errors?.['required']">Password is required.</div>
+        <div *ngIf="password.errors?.['required']">
+          {{ 'password_required.' | translate }}
+        </div>
       </mat-error>
     </mat-form-field>
 
@@ -67,7 +72,7 @@
         type="submit"
         [disabled]="loginForm.invalid"
       >
-        Login
+        {{ ' login' | translate }}
       </button>
     </div>
   </form>
