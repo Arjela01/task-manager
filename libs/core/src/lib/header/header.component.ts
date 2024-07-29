@@ -50,13 +50,13 @@ export class HeaderComponent implements OnInit {
 
   getNotifications(){
     this.notificationService
-        .getNotifications(this.user.username as string)
-        .subscribe((notifications) => {
-          this.notifications = notifications;
-          this.unreadCount = notifications.filter(
-              (notification) => !notification.read
-          ).length;
-        });
+      .getNotifications(this.user?.username as string)
+      .subscribe((notifications) => {
+        this.notifications = notifications;
+        this.unreadCount = notifications.filter(
+          (notification) => !notification.read
+        ).length;
+      });
   }
 
   logout(): void {

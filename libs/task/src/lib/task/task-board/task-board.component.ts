@@ -66,7 +66,7 @@ export class TaskBoardComponent implements OnInit {
   }
 
   getLoggedInUserData() {
-    this.user = this.authService.getUser().username as string;
+    this.user = this.authService.getUser()?.username as string;
   }
 
   loadTasks() {

@@ -107,7 +107,7 @@ export class TaskDialogComponent implements OnInit {
 
     this.comments = this.data.task?.comments || [];
     this.attachments = this.data.task?.attachments || [];
-    this.currentUserEmail = this.authService.getUser().username as string;
+    this.currentUserEmail = this.authService.getUser()?.username as string;
 
     this.userService.getUserEmails().subscribe((emails) => {
       this.teamMembers = emails.map((email) => email.split('@')[0]);
