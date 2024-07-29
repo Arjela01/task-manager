@@ -7,8 +7,8 @@ import {
 } from '@angular/material/card';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, registerables } from 'chart.js';
+import {TranslateModule} from "@ngx-translate/core";
 
-// Register the required chart types
 Chart.register(...registerables);
 
 @Component({
@@ -22,6 +22,7 @@ Chart.register(...registerables);
     MatCardContent,
     BaseChartDirective,
     MatCardTitle,
+    TranslateModule,
   ],
 })
 export class StatisticsComponent implements OnInit {

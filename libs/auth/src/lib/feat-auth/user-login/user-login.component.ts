@@ -16,6 +16,7 @@ import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import {AuthService} from "../../data-access-auth/services/auth.service";
 import {ToastService} from "@task-manager/shared";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'lib-user-login',
@@ -33,6 +34,7 @@ import {ToastService} from "@task-manager/shared";
     MatInput,
     MatButton,
     MatLabel,
+    TranslateModule,
   ],
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.scss'],
@@ -46,7 +48,7 @@ export class UserLoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private toastService: ToastService,
+    private toastService: ToastService
   ) {
     this.loginForm = this.fb.group({
       email: [
@@ -75,18 +77,18 @@ export class UserLoginComponent {
             localStorage.setItem('user', JSON.stringify(response));
             const userRole = response.role;
             if (userRole === 'admin') {
-              this.toastService.showSuccess('Login was successful')
+              this.toastService.showSuccess('Login was successful');
               this.router.navigateByUrl('/admin-dashboard');
             } else if (userRole === 'employee') {
               this.router.navigateByUrl('/employee-dashboard');
-              this.toastService.showSuccess('Login was successful')
+              this.toastService.showSuccess('Login was successful');
             } else {
-              this.toastService.showError('Wrong Credentials')
+              this.toastService.showError('Wrong Credentials');
             }
           }
         },
         (error) => {
-          this.toastService.showError(error)
+          this.toastService.showError(error);
         }
       );
     }

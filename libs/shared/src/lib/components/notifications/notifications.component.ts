@@ -9,6 +9,7 @@ import {
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import {Notification} from '../../services/notification.service';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'lib-notifications',
@@ -22,14 +23,16 @@ import {Notification} from '../../services/notification.service';
     MatButton,
     MatDialogClose,
     CommonModule,
+    TranslateModule,
   ],
   styleUrls: ['./notifications.component.css'],
 })
 export class NotificationsComponent {
   notifications: Notification[];
 
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { notifications: Notification[] }) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { notifications: Notification[] }
+  ) {
     this.notifications = data.notifications || [];
   }
 

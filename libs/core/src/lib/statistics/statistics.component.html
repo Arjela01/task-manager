@@ -1,10 +1,9 @@
 <mat-card class="statistics-card">
   <mat-card-header>
-    <mat-card-title>Task Statistics</mat-card-title>
+    <mat-card-title>{{'task_statistics' | translate}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="chart-container">
-      <!-- Pie Chart for Task Status Distribution -->
       <div class="chart">
         <canvas
           baseChart
@@ -16,8 +15,6 @@
         >
         </canvas>
       </div>
-
-      <!-- Pie Chart for Team Performance Breakdown -->
       <div class="chart">
         <canvas
           baseChart

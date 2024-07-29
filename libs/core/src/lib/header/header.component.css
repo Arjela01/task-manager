@@ -1,12 +1,16 @@
 .header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 10px 20px;
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-  width: 100%;
+}
+
+.left-side {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
@@ -15,60 +19,48 @@
 }
 
 .logo svg {
-  width: 34px;
-  height: 30px;
-  fill: #007bff; /* Match logo color with the theme */
+  margin-right: 10px;
 }
 
-.spacer {
-  flex: 1; /* Takes up all available space to push logout to the end */
+.translate {
+  margin-left: 20px;
+  margin-top: 5px;
 }
 
-.logout {
-  margin-left: auto; /* Pushes logout link to the far end */
-}
-
-.logout a {
-  color: #007bff; /* Primary color */
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500; /* Slightly lighter font weight for better readability */
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
-}
-
-.logout a:hover {
-  background-color: #e6f7ff; /* Light blue background on hover */
-  color: #0056b3; /* Darker shade for better contrast on hover */
-}
-header.header-container {
+.right-side {
   display: flex;
-  justify-content: space-between;
-}
-.left-side {
-  margin-right: 40px;
-  display: flex;
-}
-.logout-container mat-icon {
-  color: #1863d3;
+  align-items: center;
 }
 
 .notifications {
   position: relative;
   cursor: pointer;
   margin-right: 20px;
-  margin-top: 10px;
 }
 
-.notifications .badge {
+.notifications mat-icon {
+  font-size: 24px;
+  color: #0ea5e9;
+}
+
+.badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
+  top: -10px;
+  right: -10px;
+  background-color: #f44336;
+  color: #ffffff;
   border-radius: 50%;
   padding: 2px 6px;
   font-size: 12px;
-  line-height: 1;
+}
+
+.logout-container a {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logout-container mat-icon {
+  font-size: 24px;
+  color: #0ea5e9;
 }

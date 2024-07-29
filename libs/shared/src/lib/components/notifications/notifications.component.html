@@ -1,12 +1,12 @@
 <h1 mat-dialog-title class="notification-title">
- <span>Notifications</span>
+  <span>{{ 'notifications' | translate }}</span>
   <button mat-button class="clear-button" (click)="clearNotifications()">
-    Clear
+    {{ 'clear' | translate }}
   </button>
 </h1>
 <div mat-dialog-content class="notification-content">
   <div *ngIf="notifications.length === 0" class="no-notifications">
-    <p>There are no notifications</p>
+    <p>{{ 'no_notifications' | translate }}</p>
   </div>
   <div
     *ngFor="let notification of notifications"
@@ -26,5 +26,5 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button mat-dialog-close>{{ 'close' | translate }}</button>
 </div>

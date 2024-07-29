@@ -42,6 +42,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatChip } from '@angular/material/chips';
 import { NgClass, UpperCasePipe } from '@angular/common';
 import {FormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'lib-task-list',
@@ -76,10 +77,11 @@ import {FormsModule} from "@angular/forms";
     MatHeaderRowDef,
     MatRowDef,
     FormsModule,
+    TranslateModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskListComponent implements OnInit ,AfterViewInit{
+export class TaskListComponent implements OnInit, AfterViewInit {
   tasks: Task[] = [];
   displayedColumns: string[] = [
     'id',
