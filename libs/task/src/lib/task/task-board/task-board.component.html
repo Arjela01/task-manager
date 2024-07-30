@@ -3,6 +3,9 @@
     <div class="tasks-header">
       <h1>{{ 'tasks' | translate }}</h1>
       <div class="task-stats">
+        <button mat-icon-button (click)="openCalendarDialog()" class="calendar-icon">
+          <mat-icon>calendar_today</mat-icon>
+        </button>
         <span class="todo"
           >{{ 'todo' | translate }}: {{ taskCounts.todo }}</span
         >

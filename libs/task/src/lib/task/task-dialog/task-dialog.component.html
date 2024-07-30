@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>
-  {{ isEditMode ? 'Edit Task' : 'Add Task' | translate}}
+  {{ isEditMode ? 'Edit Task' : ('Add Task' | translate) }}
 </h1>
 <div mat-dialog-content>
   <mat-tab-group class="custom-tab-group">
@@ -46,6 +46,33 @@
               [value]="email"
               >{{ email }}</mat-option
             >
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Due Date' | translate }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="dueDatePicker"
+            formControlName="dueDate"
+            placeholder="Select due date"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dueDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dueDatePicker></mat-datepicker>
+          <mat-error *ngIf="form.get('dueDate')?.hasError('required')">
+            {{ 'Due Date is required.' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'Status' | translate }}</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statuses" [value]="status">{{
+              status | titlecase
+            }}</mat-option>
           </mat-select>
         </mat-form-field>
       </form>

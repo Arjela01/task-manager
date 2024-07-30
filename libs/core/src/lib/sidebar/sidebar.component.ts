@@ -16,7 +16,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { AuthFacade } from '@task-manager/auth';
 import { MatTooltip } from '@angular/material/tooltip';
-import { TranslateComponent } from '../translate/translate.component';
+import { TranslateLocaleComponent } from '../translate-locale/translate-locale.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -37,7 +37,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatSidenavContent,
     RouterLinkActive,
     MatTooltip,
-    TranslateComponent,
+    TranslateLocaleComponent,
     TranslateModule,
   ],
 })

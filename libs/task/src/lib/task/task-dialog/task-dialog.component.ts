@@ -8,22 +8,19 @@ import {
 } from '@angular/material/dialog';
 import {
   FormBuilder,
-  FormGroup,
+  FormGroup, FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Attachment, Task, Comment, TaskStatus } from '../../models/task.model';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import {MatError, MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import { MatList, MatListItem } from '@angular/material/list';
-import { MatInput } from '@angular/material/input';
+import {MatInput, MatInputModule} from '@angular/material/input';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import {MatOption, MatSelect} from '@angular/material/select';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatOption, MatSelect } from '@angular/material/select';
 import {
-  MatCard,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle,
+  MatCardModule,
 } from '@angular/material/card';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/users.service';
@@ -32,7 +29,13 @@ import { AuthService } from '@task-manager/auth';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { MatCommonModule } from '@angular/material/core';
+import {
+  MatCommonModule,
+  MatNativeDateModule,
+} from '@angular/material/core';
+import {
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 
 @Component({
   selector: 'lib-task-dialog',
@@ -53,17 +56,20 @@ import { MatCommonModule } from '@angular/material/core';
     MatIconButton,
     MatIcon,
     MatSelect,
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
-    MatCardTitle,
+    MatCardModule,
     MatError,
     MatTab,
     MatTabGroup,
     CommonModule,
     MatCommonModule,
-      MatOption,
+    MatOption,
     TranslateModule,
+    MatIconModule,
+    FormsModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule
   ],
 })
 export class TaskDialogComponent implements OnInit {
@@ -103,6 +109,7 @@ export class TaskDialogComponent implements OnInit {
       description: [this.data.task?.description || '', Validators.required],
       status: [this.data.task?.status || 'todo', Validators.required],
       assignedTo: [this.data.task?.assignedTo || '', Validators.required],
+      dueDate: [this.data.task?.dueDate || '', Validators.required],
     });
 
     this.comments = this.data.task?.comments || [];
@@ -146,7 +153,9 @@ export class TaskDialogComponent implements OnInit {
 
   addComment(commentText: string) {
     if (commentText.trim()) {
-      const mentionUsername = this.extractMentionUsername(commentText) as string;
+      const mentionUsername = this.extractMentionUsername(
+        commentText
+      ) as string;
       this.mentionUser = mentionUsername
         ? `${mentionUsername}@example.com`
         : '';
