@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {NotificationsComponent} from "@task-manager/shared";
+import {NotificationsComponent} from "./notifications.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {provideMockStore} from "@ngrx/store/testing";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
