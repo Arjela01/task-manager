@@ -7,6 +7,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { TranslateModule } from '@ngx-translate/core';
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'lib-ui-not-found',
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatCardSubtitle,
     MatCardContent,
     TranslateModule,
+    MatButton,
   ],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.css',

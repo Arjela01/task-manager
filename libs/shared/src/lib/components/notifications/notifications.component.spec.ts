@@ -1,16 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NofificationsComponent } from './nofifications.component';
+import {NotificationsComponent} from "./notifications.component";
+import {TranslateModule} from "@ngx-translate/core";
+import {provideMockStore} from "@ngrx/store/testing";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {of} from "rxjs";
 
-describe('NotFound', () => {
-  let component: NofificationsComponent;
-  let fixture: ComponentFixture<NofificationsComponent>;
+describe('NotificationsComponent', () => {
+  let component: NotificationsComponent;
+  let fixture: ComponentFixture<NotificationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NofificationsComponent],
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        provideMockStore({
+          selectors: [],
+        }),
+        { provide: MatDialogRef, useValue: { afterClosed: () => of(true) } },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NofificationsComponent);
+    fixture = TestBed.createComponent(NotificationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
