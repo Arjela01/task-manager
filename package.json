@@ -26,6 +26,7 @@
     "@ngx-translate/http-loader": "^8.0.0",
     "@nx/angular": "19.5.3",
     "chart.js": "^4.4.3",
+    "gh-pages": "^6.1.1",
     "jwt-decode": "^4.0.0",
     "ng2-charts": "^6.0.1",
     "nx-cloud": "^19.0.0",
