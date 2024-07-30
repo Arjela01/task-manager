@@ -70,8 +70,8 @@ export class TaskBoardComponent implements OnInit {
   openCalendarDialog(): void {
     this.tasks = this.taskService.getTasks();
     this.dialog.open(TaskCalendarComponent, {
-      width: '80%',
-      height: '80%',
+      width: '1700px',
+      height: '82%',
       data: {
         tasks: this.tasks,
       },

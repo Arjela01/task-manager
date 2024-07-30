@@ -50,5 +50,11 @@
   "assigned_to_you": "është caktuar për ju.",
   "task_statistics": "Statistikat e Detyrave",
   "tasks": "Detyrat",
-  "close": "Mbyll"
+  "close": "Mbyll",
+  "day": "Dita",
+  "month": "Muaji",
+  "today": "Sot",
+  "next": "Të ardhshme",
+  "previous": "E kaluar",
+  "week": "Javë"
 }

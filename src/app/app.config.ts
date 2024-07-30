@@ -26,15 +26,21 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import {
+  CalendarDateFormatter,
+  CalendarModule,
+  CalendarMomentDateFormatter,
+  DateAdapter,
+  MOMENT
+} from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en';
 import localeDe from '@angular/common/locales/de';
 import localeSq from '@angular/common/locales/sq';
-
+import * as moment from 'moment';
+import {NgbModalModule} from "@ng-bootstrap/ng-bootstrap";
 registerLocaleData(localeEn);
 registerLocaleData(localeDe);
 registerLocaleData(localeSq);
@@ -45,6 +51,14 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export const appConfig = {
   providers: [
+    {
+      provide: MOMENT,
+      useValue: moment
+    },
+    {
+      provide: CalendarDateFormatter,
+      useClass: CalendarMomentDateFormatter
+    },
     { provide: LOCALE_ID, useValue: 'en-US' },
     provideHttpClient(),
     provideStore({
@@ -63,12 +77,11 @@ export const appConfig = {
     provideNativeDateAdapter(),
     TranslateService,
     importProvidersFrom(
-      BrowserAnimationsModule,
-      MatDatepickerModule,
-      CalendarModule.forRoot({
-        provide: DateAdapter,
-        useFactory: adapterFactory,
-      }),
+        NgbModalModule,
+        CalendarModule.forRoot({
+          provide: DateAdapter,
+          useFactory: adapterFactory
+        }),
       HttpClientModule,
       TranslateModule.forRoot({
         defaultLanguage: 'en',
