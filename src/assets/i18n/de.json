@@ -50,5 +50,11 @@
   "assigned_to_you": "wurde Ihnen zugewiesen.",
   "task_statistics": "Aufgabenstatistik",
   "tasks": "Aufgaben",
-  "close": "Schließen"
+  "close": "Schließen",
+  "day": "Tag",
+  "month": "Monat",
+  "today": "Heute",
+  "next": "Nächste",
+  "previous": "Vorherige",
+  "week": "Woche",
 }

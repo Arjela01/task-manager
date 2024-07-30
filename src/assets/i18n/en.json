@@ -50,5 +50,11 @@
   "assigned_to_you": "has been assigned to you.",
   "task_statistics": "Task Statistics",
   "tasks": "Tasks",
-  "close": "Close"
+  "close": "Close",
+  "day": "Day",
+  "month": "Month",
+  "today": "Today",
+  "next": "Next",
+  "previous": "Previous",
+  "week": "Week"
 }
