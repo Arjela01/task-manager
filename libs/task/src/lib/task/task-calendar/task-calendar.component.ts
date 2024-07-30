@@ -39,7 +39,7 @@ export class TaskCalendarComponent {
   }
 
   initializeEvents(tasks: any): void {
-    this.events = tasks.tasks.map((task: Task) => {
+    this.events = tasks.tasks?.map((task: Task) => {
       const [day, month, year] = (task.dueDate as string)
         .split('/')
         .map(Number);
