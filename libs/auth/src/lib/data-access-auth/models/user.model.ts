@@ -3,6 +3,7 @@ export interface User {
   displayName?: string;
   username?: string;
   role?: string;
+  lang: string;
 }
 
 export type GenericStoreStatus =

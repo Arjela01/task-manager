@@ -8,8 +8,8 @@ import {
 } from '@angular/material/dialog';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
-import {Notification} from '../../services/notification.service';
 import {TranslateModule} from "@ngx-translate/core";
+import {Notification} from "../../models/notification.model";
 
 @Component({
   selector: 'lib-notifications',

@@ -19,6 +19,7 @@ export const initialAuthState: AuthState = {
     displayName: '',
     username: '',
     role: '',
+    lang: '',
   },
   token: '',
   status: 'initial',
@@ -53,6 +54,7 @@ export const authFeature = createFeature({
         displayName: loginResponse.displayName,
         username: loginResponse.username,
         role: loginResponse.role,
+        lang: loginResponse.lang,
       },
     })),
     on(AuthActions.loginFailure, (state, { error }) => ({
@@ -69,6 +71,7 @@ export const authFeature = createFeature({
         displayName: '',
         username: '',
         role: '',
+        lang: '',
       },
     }))
   ),

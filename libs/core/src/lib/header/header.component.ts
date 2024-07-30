@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.user = this.authService.getUser();
     this.notificationService
-      .getNotifications(this.user?.username as string)
+      .startPolling(this.user?.username as string)
       .subscribe((notifications) => {
         this.notifications = notifications;
         this.unreadCount = notifications.filter(
@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit {
 
     const dialogRef = this.dialog.open(NotificationsComponent, {
       data: { notifications: sortedNotifications },
-      width: '500px',
+      width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(() => {

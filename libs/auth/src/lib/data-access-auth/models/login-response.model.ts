@@ -6,10 +6,12 @@ export interface LoginResponse {
   errorMessage?: string;
   assignedTo?: string;
   role?: string;
+  lang: string;
   user?: {
     id?: number;
     name?: string;
     email?: string;
     role?: string;
+    lang?: string;
   };
 }
