@@ -19,7 +19,8 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { TaskService } from '../../services/task.service';
 import { AuthService } from '@task-manager/auth';
 import { ToastService } from '@task-manager/shared';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
+import { TaskCalendarComponent } from '../task-calendar/task-calendar.component';
 
 @Component({
   selector: 'lib-task-board',
@@ -46,6 +47,7 @@ import {TranslateModule} from "@ngx-translate/core";
   styleUrl: './task-board.component.css',
 })
 export class TaskBoardComponent implements OnInit {
+  tasks: Task[] = [];
   todoTasks: Task[] = [];
   inProgressTasks: Task[] = [];
   doneTasks: Task[] = [];
@@ -64,6 +66,18 @@ export class TaskBoardComponent implements OnInit {
     this.loadTasks();
     this.cd.detectChanges();
   }
+
+  openCalendarDialog(): void {
+    this.tasks = this.taskService.getTasks();
+    this.dialog.open(TaskCalendarComponent, {
+      width: '80%',
+      height: '80%',
+      data: {
+        tasks: this.tasks,
+      },
+    });
+  }
+
 
   getLoggedInUserData() {
     this.user = this.authService.getUser()?.username as string;

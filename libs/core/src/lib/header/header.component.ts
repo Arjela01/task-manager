@@ -13,7 +13,7 @@ import { MatListItem } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
 import { User } from '@task-manager/auth';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslateComponent } from '../translate/translate.component';
+import { TranslateLocaleComponent } from '../translate-locale/translate-locale.component';
 
 @Component({
   selector: 'lib-header',
@@ -27,7 +27,7 @@ import { TranslateComponent } from '../translate/translate.component';
     MatListItem,
     MatTooltip,
     TranslateModule,
-    TranslateComponent,
+    TranslateLocaleComponent,
   ],
 })
 export class HeaderComponent implements OnInit {

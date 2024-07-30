@@ -7,6 +7,7 @@ export interface Task {
     comments?: Comment[];
     attachments?: Attachment[];
     mentions?: string[];
+    dueDate?:any;
 }
 
 export type TaskStatus = 'todo' | 'inProgress' | 'done'

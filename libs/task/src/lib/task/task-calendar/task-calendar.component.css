@@ -1,0 +1,10 @@
+.calendar {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mwl-calendar-month-view {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 16px;
+}

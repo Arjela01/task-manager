@@ -124,3 +124,20 @@
   padding: 16px 16px 0;
   justify-content: space-between;
 }
+
+@media (max-width: 800px) {
+  .tasks-columns {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .task-column {
+    width: 100%;
+  }
+}
+
+.calendar-icon {
+  color: blue;
+  margin-right: 16px;
+}

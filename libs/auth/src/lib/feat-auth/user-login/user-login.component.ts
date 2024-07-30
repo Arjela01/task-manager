@@ -14,9 +14,10 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { AuthService } from "../../data-access-auth/services/auth.service";
-import { ToastService } from "@task-manager/shared";
-import { TranslateModule } from "@ngx-translate/core";
+import { AuthService } from '../../data-access-auth/services/auth.service';
+import { ToastService } from '@task-manager/shared';
+import { TranslateModule } from '@ngx-translate/core';
+import { TaskData } from '../../data-access-auth/mock-data/mock-data';
 
 @Component({
   selector: 'lib-user-login',
@@ -42,13 +43,14 @@ import { TranslateModule } from "@ngx-translate/core";
 export class UserLoginComponent {
   loginForm: FormGroup;
   hidePassword = true;
+  tasks = TaskData;
 
   constructor(
-      private fb: FormBuilder,
-      private router: Router,
-      private authService: AuthService,
-      private toastService: ToastService,
-      private cd: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private cd: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.group({
       email: [
@@ -56,7 +58,7 @@ export class UserLoginComponent {
         [
           Validators.required,
           Validators.pattern(
-              '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'
+            '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'
           ),
         ],
       ],
@@ -71,31 +73,32 @@ export class UserLoginComponent {
         password: this.loginForm.value.password,
       };
       this.authService.login(loginRequest).subscribe(
-          (response) => {
-            if (response) {
-              localStorage.setItem('authToken', response.token);
-              localStorage.setItem('user', JSON.stringify(response));
-              const userRole = response.role;
-              this.toastService.showSuccess('Login was successful');
+        (response) => {
+          if (response) {
+            localStorage.setItem('authToken', response.token);
+            localStorage.setItem('user', JSON.stringify(response));
+            localStorage.setItem('tasks', JSON.stringify(this.tasks));
+            const userRole = response.role;
+            this.toastService.showSuccess('Login was successful');
 
-              let navigateTo = '';
-              if (userRole === 'admin') {
-                navigateTo = '/admin-dashboard';
-              } else if (userRole === 'employee') {
-                navigateTo = '/employee-dashboard';
-              } else {
-                this.toastService.showError('Wrong Credentials');
-                return;
-              }
-
-              this.router.navigate([navigateTo]).then(() => {
-                this.cd.detectChanges();
-              });
+            let navigateTo = '';
+            if (userRole === 'admin') {
+              navigateTo = '/admin-dashboard';
+            } else if (userRole === 'employee') {
+              navigateTo = '/employee-dashboard';
+            } else {
+              this.toastService.showError('Wrong Credentials');
+              return;
             }
-          },
-          (error) => {
-            this.toastService.showError(error);
+
+            this.router.navigate([navigateTo]).then(() => {
+              this.cd.detectChanges();
+            });
           }
+        },
+        (error) => {
+          this.toastService.showError(error);
+        }
       );
     }
   }

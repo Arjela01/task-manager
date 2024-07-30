@@ -10,19 +10,17 @@ export class TaskService {
     private nextId = 1;
 
     constructor() {
-        // Load tasks from local storage or initialize with predefined tasks
         const storedTasks = localStorage.getItem(this.storageKey);
         if (storedTasks) {
             this.tasks = JSON.parse(storedTasks);
             this.nextId = this.tasks.length ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1;
         } else {
-            // Initialize with predefined tasks
-            this.tasks = TaskData as Task[];
+            this.tasks = TaskData as unknown as Task[];
             this.saveTasksToLocalStorage();
         }
     }
 
-    private tasks: Task[] = [];
+    tasks: Task[] = [];
 
     getTasks(): Task[] {
         return this.tasks;
