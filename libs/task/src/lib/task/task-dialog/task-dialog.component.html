@@ -30,15 +30,6 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'Status' | translate }}</mat-label>
-          <mat-select formControlName="status">
-            <mat-option *ngFor="let status of statuses" [value]="status">{{
-              status | titlecase
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width">
           <mat-label>{{ 'Assigned To' | translate }}</mat-label>
           <mat-select formControlName="assignedTo">
             <mat-option
