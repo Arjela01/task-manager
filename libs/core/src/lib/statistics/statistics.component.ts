@@ -7,7 +7,7 @@ import {
 } from '@angular/material/card';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, registerables } from 'chart.js';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 Chart.register(...registerables);
 
@@ -31,40 +31,51 @@ export class StatisticsComponent implements OnInit {
   taskStatusLabels: string[] = [];
   teamPerformanceData: any[] = [];
   teamPerformanceLabels: string[] = [];
+  taskStatusOptions: any;
+  teamPerformanceOptions: any;
+
+  constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.loadTasksFromLocalStorage();
     this.generateTaskStatusData();
     this.generateTeamPerformanceData();
+    this.setChartOptions();
   }
 
-  public taskStatusOptions = {
-    responsive: true,
-    aspectRatio: 2,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Task Status Distribution',
-        font: {
-          size: 20,
+  private setChartOptions(): void {
+    this.translate.get('task_status_distribution').subscribe((res: string) => {
+      this.taskStatusOptions = {
+        responsive: true,
+        aspectRatio: 2,
+        plugins: {
+          title: {
+            display: true,
+            text: res,
+            font: {
+              size: 20,
+            },
+          },
         },
-      },
-    },
-  };
+      };
+    });
 
-  public teamPerformanceOptions = {
-    responsive: true,
-    aspectRatio: 2,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Team Performance',
-        font: {
-          size: 20,
+    this.translate.get('team_performance').subscribe((res: string) => {
+      this.teamPerformanceOptions = {
+        responsive: true,
+        aspectRatio: 2,
+        plugins: {
+          title: {
+            display: true,
+            text: res,
+            font: {
+              size: 20,
+            },
+          },
         },
-      },
-    },
-  };
+      };
+    });
+  }
 
   private loadTasksFromLocalStorage(): void {
     const tasksFromStorage = localStorage.getItem('tasks');

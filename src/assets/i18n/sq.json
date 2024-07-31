@@ -56,5 +56,11 @@
   "today": "Sot",
   "next": "Të ardhshme",
   "previous": "E kaluar",
-  "week": "Javë"
+  "week": "Javë",
+  "actions": "Veprimet",
+  "mention_notification": "Ju u përmend në një koment: \"{{message}}\"",
+  "task_assigned_notification": "Detyra \"{{taskName}}\" është caktuar për ju.",
+  "task_created_successfully": "Detyra u krijua me sukses",
+  "task_updated_successfully": "Detyra u përditësua me sukses",
+  "task_deleted_successfully": "Detyra u fshi me sukses"
 }

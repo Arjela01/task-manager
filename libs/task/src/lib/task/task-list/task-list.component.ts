@@ -42,7 +42,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatChip } from '@angular/material/chips';
 import { CommonModule, NgClass, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import { MatCommonModule } from '@angular/material/core';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { UserService } from '../../services/users.service';
@@ -115,6 +115,7 @@ export class TaskListComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private toastService: ToastService,
     private serviceSearch: SearchService,
+    private  translateService: TranslateService,
   ) {
     this.dataSource = new MatTableDataSource(this.tasks);
   }
@@ -161,11 +162,12 @@ export class TaskListComponent implements OnInit, AfterViewInit {
       width: '650px',
       data: { task: null },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.taskService.addTask(result);
-        this.toastService.showSuccess('Task created successfully');
+        this.translateService.get('task_created_successfully').subscribe((res: string) => {
+          this.toastService.showSuccess(res);
+        });
         this.loadTasksFromLocalStorage();
       }
     });
@@ -180,7 +182,9 @@ export class TaskListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.taskService.updateTask(result);
-        this.toastService.showSuccess('Task updated successfully');
+        this.translateService.get('task_updated_successfully').subscribe((res: string) => {
+          this.toastService.showSuccess(res);
+        });
         this.loadTasksFromLocalStorage();
       }
     });
@@ -188,7 +192,9 @@ export class TaskListComponent implements OnInit, AfterViewInit {
 
   deleteTask(task: Task) {
     this.taskService.deleteTask(task.id);
-    this.toastService.showSuccess('Task deleted successfully');
+    this.translateService.get('task_deleted_successfully').subscribe((res: string) => {
+      this.toastService.showSuccess(res);
+    });
     this.loadTasksFromLocalStorage();
   }
 }

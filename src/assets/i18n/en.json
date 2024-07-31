@@ -56,5 +56,11 @@
   "today": "Today",
   "next": "Next",
   "previous": "Previous",
-  "week": "Week"
+  "week": "Week",
+  "actions": "Actions",
+  "mention_notification": "You were mentioned in a comment: \"{{message}}\"",
+  "task_assigned_notification": "Task \"{{taskName}}\" has been assigned to you.",
+  "task_created_successfully": "Task created successfully",
+  "task_updated_successfully": "Task updated successfully",
+  "task_deleted_successfully": "Task deleted successfully"
 }
