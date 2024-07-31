@@ -57,4 +57,9 @@
   "next": "Nächste",
   "previous": "Vorherige",
   "week": "Woche",
+  "mention_notification": "Sie wurden in einem Kommentar erwähnt: \"{{message}}\"",
+  "task_assigned_notification": "Die Aufgabe \"{{taskName}}\" wurde Ihnen zugewiesen.",
+  "task_created_successfully": "Aufgabe erfolgreich erstellt",
+  "task_updated_successfully": "Aufgabe erfolgreich aktualisiert",
+  "task_deleted_successfully": "Aufgabe erfolgreich gelöscht"
 }

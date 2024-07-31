@@ -19,7 +19,7 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { TaskService } from '../../services/task.service';
 import { AuthService } from '@task-manager/auth';
 import { ToastService } from '@task-manager/shared';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import { TaskCalendarComponent } from '../task-calendar/task-calendar.component';
 
 @Component({
@@ -44,7 +44,7 @@ import { TaskCalendarComponent } from '../task-calendar/task-calendar.component'
     TranslateModule,
   ],
   templateUrl: './task-board.component.html',
-  styleUrl: './task-board.component.css',
+  styleUrls: ['./task-board.component.css'],
 })
 export class TaskBoardComponent implements OnInit {
   tasks: Task[] = [];
@@ -58,7 +58,8 @@ export class TaskBoardComponent implements OnInit {
     private dialog: MatDialog,
     private cd: ChangeDetectorRef,
     private authService: AuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -70,14 +71,13 @@ export class TaskBoardComponent implements OnInit {
   openCalendarDialog(): void {
     this.tasks = this.taskService.getTasks();
     this.dialog.open(TaskCalendarComponent, {
-      width: '1700px',
+      width: '90%',
       height: '82%',
       data: {
         tasks: this.tasks,
       },
     });
   }
-
 
   getLoggedInUserData() {
     this.user = this.authService.getUser()?.username as string;
@@ -102,11 +102,13 @@ export class TaskBoardComponent implements OnInit {
   onDrop(event: CdkDragDrop<Task[]>, status: string) {
     const task = event.item.data as Task;
     const previousList = event.previousContainer.data as Task[];
+    const targetList = event.container.data as Task[];
     const index = previousList.indexOf(task);
     if (index >= 0) {
       previousList.splice(index, 1);
     }
     task.status = status as TaskStatus;
+    targetList.push(task);
     this.taskService.updateTask(task);
     this.loadTasks();
   }
@@ -120,15 +122,23 @@ export class TaskBoardComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.taskService.updateTask(result);
-        this.toastService.showSuccess('Task updated successfully');
+        this.translateService
+          .get('task_updated_successfully')
+          .subscribe((res: string) => {
+            this.toastService.showSuccess(res);
+          });
         this.loadTasks();
       }
     });
   }
 
   deleteTask(task: Task) {
-    this.toastService.showSuccess('Task deleted successfully');
     this.taskService.deleteTask(task.id);
+    this.translateService
+      .get('task_deleted_successfully')
+      .subscribe((res: string) => {
+        this.toastService.showSuccess(res);
+      });
     this.loadTasks();
   }
 }
